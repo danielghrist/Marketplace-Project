@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daniel Ghrist (kda458) Basic Login</title>
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="assets/css/style.css"> -->
+</head>
+
+<body>
+  <main class="container d-flex flex-column align-items-center justify-content-center border border-primary rounded">
+    <h1 class="text-center mb-5">Basic Framework For Login Page</h1>
+    <form class="row g-3 needs-validation" novalidate>
+      <div class="form-group has-feedback" id="username-div">
+        <label for="username" class="form-label">Enter a Username:</label>
+        <input type="text" class="form-control" name="username" id="username"
+          placeholder="Please enter five or more characters" onblur="checkUsername()">
+        <span id="un-icon" class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <!-- <span id="inputError2Status" class="sr-only">(error)</span> -->
+        <span id="un-feedback" class="help-block"></span>
+      </div>
+      <div class="form-group has-feedback" id="password-div">
+        <label class="form-label" for="password">Enter a Password:</label>
+        <input type="password" class="form-control" name="password" id="password"
+          placeholder="Please enter five or more characters" onblur="checkPassword()">
+        <span id="pw-icon" class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <span id="pw-feedback" class="help-block"></span>
+      </div>
+      <div class="form-group text-center">
+        <input type="submit" class="btn btn-primary" value="Submit">
+      </div>
+    </form>
+  </main>
+
+  <script src="assets/js/event-attributes.js"></script>
+</body>
+
+</html>
