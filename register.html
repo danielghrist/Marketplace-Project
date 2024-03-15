@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daniel Ghrist (kda458) Basic User Registration</title>
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="assets/css/style.css"> -->
+</head>
+
+<body>
+  <main class="container d-flex flex-column min-vh-100 align-items-center justify-content-center">
+    <h1 class="text-center mb-5">Basic Framework For User Registration</h1>
+    <form class="row g-3 needs-validation border border-primary rounded" id="username-id" novalidate>
+      <div id="username-div">
+        <label for="username" class="form-label">Enter a Username:</label>
+        <input type="text" class="form-control" name="username" id="username"
+          placeholder="Please enter five or more characters" onblur="checkUsername()" required>
+        <div class="invalid-feedback">
+          Please choose a username.
+        </div>
+        <!-- <span id="un-icon" class="glyphicon form-control-feedback" aria-hidden="true"></span> -->
+        <!-- <span id="inputError2Status" class="sr-only">(error)</span> -->
+        <!-- <span id="un-feedback" class="help-block"></span> -->
+      </div>
+      <div id="password-div">
+        <label class="form-label" for="password">Enter a Password:</label>
+        <input type="password" class="form-control" name="password" id="password"
+          placeholder="Please enter five or more characters" onblur="checkPassword()" required>
+        <div class="invalid-feedback">
+          Please choose a password greater than five characters.
+        </div>
+        <!-- <span id="pw-icon" class="glyphicon form-control-feedback" aria-hidden="true"></span> -->
+        <!-- <span id="pw-feedback" class="help-block"></span> -->
+      </div>
+      <div class="text-center mb-3">
+        <input type="submit" class="btn btn-primary" value="Register">
+      </div>
+    </form>
+  </main>
+
+  <script src="assets/js/event-attributes.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

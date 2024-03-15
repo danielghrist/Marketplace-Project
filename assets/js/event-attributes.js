@@ -3,25 +3,24 @@
 // Test for validity of username length:
 function checkUsername() {
   // Declare/Initialize variables:
-  var usernameDiv = document.getElementById("username-div");
+  var usernameId = document.getElementById("username-id");
   var username = document.getElementById("username");
   var unFeedbackSpan = document.getElementById("un-feedback");
-  var unGlyphiconSpan = document.getElementById("un-icon");
+  // var unGlyphiconSpan = document.getElementById("un-icon");
 
   if (username.value.length < 5) {
-    usernameDiv.classList.add("has-error");
+    usernameId.classList.add("was-validated");
     // usernameDiv.classList.add("has-feedback");
-    unGlyphiconSpan.classList.add("glyphicon-remove");
-
-    unFeedbackSpan.innerHTML =
-      "Your username must be at least five characters long.";
+    // unGlyphiconSpan.classList.add("glyphicon-remove");
+    // unFeedbackSpan.innerHTML =
+    //   "Your username must be at least five characters long.";
   } else {
-    usernameDiv.classList.add("has-success");
-    unGlyphiconSpan.classList.add("glyphicon-ok");
-    unFeedbackSpan.innerHTML = "";
+    usernameId.classList.add("was-validated");
+    // unGlyphiconSpan.classList.add("glyphicon-ok");
+    // unFeedbackSpan.innerHTML = "";
 
-    usernameDiv.classList.remove("has-error");
-    unGlyphiconSpan.classList.remove("glyphicon-remove");
+    // usernameDiv.classList.remove("has-error");
+    // unGlyphiconSpan.classList.remove("glyphicon-remove");
   }
 }
 
