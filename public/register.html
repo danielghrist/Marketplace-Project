@@ -5,14 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daniel Ghrist (kda458) Basic User Registration</title>
-  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
   <!-- <link rel="stylesheet" href="assets/css/style.css"> -->
 </head>
 
 <body>
   <main class="container d-flex flex-column min-vh-100 align-items-center justify-content-center">
     <h1 class="text-center mb-5">Basic Framework For User Registration</h1>
-    <form class="row g-3 needs-validation border border-primary rounded" id="username-id" novalidate>
+    <form action="/createUser" class="row g-3 needs-validation border border-primary rounded" method="post"
+      id="username-id" novalidate>
       <div id="username-div">
         <label for="username" class="form-label">Enter a Username:</label>
         <input type="text" class="form-control" name="username" id="username"
@@ -35,7 +36,7 @@
         <!-- <span id="pw-feedback" class="help-block"></span> -->
       </div>
       <div class="text-center mb-3">
-        <input type="submit" class="btn btn-primary" value="Register">
+        <button type="submit" class="btn btn-primary">Register</button>
       </div>
     </form>
   </main>
