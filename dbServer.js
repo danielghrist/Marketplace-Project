@@ -27,10 +27,10 @@ app.listen(port, () => console.log(`Server Started on port ${port}...`));
 
 // // The route to GET the main index.html page:
 const path = require("path");
-app.use(express.static(path.join(__dirname, "public")));
-console.log(path.join(__dirname, "public/register.html"));
+app.use(express.static(__dirname));
+console.log(path.join(__dirname, "index.html"));
 app.get("/", (req, res) => {
-res.sendFile(path.join(__dirname, "public/register.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 /***** BEGIN CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
