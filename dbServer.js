@@ -1,14 +1,19 @@
-const express = require("express");
-const app = express();
-const mysql = require("mysql");
+/*** Server to route and hash passwords for registration and allow users to login. ****/
 
+// Require Modules:
+const express = require("express");
+const mysql = require("mysql");
+const app = express();
 require("dotenv").config();
+
+// Retrieve hidden data in .env file:
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_DATABASE = process.env.DB_DATABASE;
 const DB_PORT = process.env.DB_PORT;
 
+// Create connection to MySQL server hosted on AWS RDS:
 const db = mysql.createPool({
   connectionLimit: 100,
   host: DB_HOST, //This is your localhost IP
@@ -22,10 +27,7 @@ db.getConnection((err, connection) => {
   console.log("DB connected successful: " + connection.threadId);
 });
 
-const port = process.env.PORT;
-app.listen(port, () => console.log(`Server Started on port ${port}...`));
-
-// // The route to GET the main index.html page:
+// The route to GET the main index.html page:
 const path = require("path");
 app.use(express.static(__dirname));
 console.log(path.join(__dirname, "index.html"));
@@ -38,7 +40,7 @@ const bcrypt = require("bcrypt");
 app.use(express.urlencoded(/*{ excluded: false }*/));
 //middleware to read req.body.<params>
 //CREATE USER
-app.post("/createUser", async (req, res) => {
+app.post("/register", async (req, res) => {
   const user = req.body.username;
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
   db.getConnection(async (err, connection) => {
@@ -71,3 +73,6 @@ app.post("/createUser", async (req, res) => {
 }); //end of app.post()
 
 /***** END CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
+
+const port = process.env.PORT;
+app.listen(port, () => console.log(`Server Started on port ${port}...`));
