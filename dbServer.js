@@ -45,12 +45,13 @@ app.post("/register", async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
   db.getConnection(async (err, connection) => {
     if (err) throw err;
+    // ? will be replaced by values
+    // ?? will be replaced by string
     const sqlSearch = "SELECT * FROM userTable WHERE user = ?";
     const search_query = mysql.format(sqlSearch, [user]);
     const sqlInsert = "INSERT INTO userTable VALUES (0,?,?)";
     const insert_query = mysql.format(sqlInsert, [user, hashedPassword]);
-    // ? will be replaced by values
-    // ?? will be replaced by string
+
     await connection.query(search_query, async (err, result) => {
       if (err) throw err;
       console.log("------> Search Results");
@@ -65,7 +66,8 @@ app.post("/register", async (req, res) => {
           if (err) throw err;
           console.log("--------> Created new User");
           console.log(result.insertId);
-          res.sendStatus(201);
+          // res.sendStatus(201);
+          res.redirect("/");
         });
       }
     }); //end of connection.query()
