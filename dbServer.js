@@ -66,7 +66,7 @@ app.post("/register", async (req, res) => {
           if (err) throw err;
           console.log("--------> Created new User");
           console.log(result.insertId);
-          res.sendStatus(201);
+          res.sendStatus(200).send("User added to database...");
         });
       }
     }); //end of connection.query()
