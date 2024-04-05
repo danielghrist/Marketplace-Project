@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
 
 /***** BEGIN CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
 const bcrypt = require("bcrypt");
-app.use(express.urlencoded(/*{ excluded: false }*/));
+app.use(express.urlencoded({ extended: true }));
 //middleware to read req.body.<params>
 //CREATE USER
 app.post("/register", async (req, res) => {
@@ -66,8 +66,7 @@ app.post("/register", async (req, res) => {
           if (err) throw err;
           console.log("--------> Created new User");
           console.log(result.insertId);
-          // res.sendStatus(201);
-          res.redirect("/");
+          res.sendStatus(201);
         });
       }
     }); //end of connection.query()
