@@ -1,0 +1,14 @@
+<h1 align='center'>SWE Group04 Team Project: Marketplace/Collection Website</h1>
+<hr align='center' />
+<h2>Project Description:</h2>
+<p>Our project will be an online web application marketplace with an included collection feature so users may curate a collection of items they have and then sell them, or just help them have their collection data for their own purposes. The addition of a user’s collection will set our project apart from other similar sites. Our project will help users curate their items for sale or purchase other items to add to their collection. This is important as currently if you wanted to combine these two ideas you would need to use two separate applications. 
+Users will need to create an account and login using a username and password that will be stored in the database (hashed and salted) to access the features of the site. We will have multiple types of users, such as people who just want to sell, some who just want to buy, others who just want to use the collection feature to keep track of their items, or any combination of the previous. We will also include administrative users who have full access to the system. Users will be able to post items for sale either from their collection or just as a one off and choose between an auction style or a buy it now marketplace style of selling. This will allow other users to purchase items from each other.
+We are attempting to create the feel of a mash up of several different influences. Those being Facebook Marketplace, eBay, and a collection website. We will also attempt to put our own spin on the website to make it feel like something new and fresh as well as something comfortable that they are used to. We believe this will allow our users to be more organized and allow them to sell or purchase items easier, quickly, and intuitively update their collections if they choose to use that feature.
+</p>
+
+<h2>Technologies:</h2>
+<ul>
+  <li>Database (DBMS):  MySQL hosted on Amazon AWS RDS Server</li>
+  <li>Front End:        HTML/CSS/Javascript/Bootstrap 5</li>
+  <li>Back End:         Node.JS/Express.JS/Javascript</li>
+</ul>
