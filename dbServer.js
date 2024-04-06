@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
 
 /***** BEGIN CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
 const bcrypt = require("bcrypt");
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded(/*{ extended: true }*/));
 //middleware to read req.body.<params>
 //CREATE USER
 app.post("/register", async (req, res) => {
