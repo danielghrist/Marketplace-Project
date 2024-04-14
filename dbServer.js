@@ -64,6 +64,7 @@ app.post("/createUser", async (req, res) => {
     const sqlInsert = "INSERT INTO userTable VALUES (0,?,?)";
     const insert_query = mysql.format(sqlInsert, [user, hashedPassword]);
 
+    // Check if User exists:
     await connection.query(search_query, async (err, result) => {
       if (err) throw err;
       console.log("------> Search Results");
@@ -71,14 +72,22 @@ app.post("/createUser", async (req, res) => {
       if (result.length != 0) {
         connection.release();
         console.log("------> User already exists");
-        res.sendStatus(409);
+        res
+          .status(409)
+          .send(
+            `<h1>Status ${res.statusCode}: This user has already registered and exists within the database.</h1>`
+          );
       } else {
         await connection.query(insert_query, (err, result) => {
           connection.release();
           if (err) throw err;
           console.log("--------> Created new User");
           console.log(result.insertId);
-          res.status(201).send(`${res.statusCode}: User added to database...`);
+          res
+            .status(201)
+            .send(
+              `<h1>Status ${res.statusCode}: User added to database...</h1>`
+            );
         });
       }
     }); //end of connection.query()

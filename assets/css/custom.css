@@ -1,3 +1,143 @@
 /*
 Custom Css
 */
+
+
+.center {
+  position: relative;
+  margin: 3px;
+  width: 50%;
+  padding: 10px;
+  padding-top: 15px;
+}
+
+.container-mid {
+  display: flex;
+  justify-content:space-between;
+}
+
+.searchbox-center{
+    width: 100%;
+    text-align:center;
+	background-color: #0e1a40;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.logo-font {
+	font-size: 16px !important;
+	color: #ee4035;
+}
+
+.carousel-item {
+  height: 500px;
+  overflow: hidden;
+}
+
+.carousel-gaming {
+	height: 32rem;
+	background-color: darkcyan;
+	position:relative;
+}
+
+.container-gaming {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding-bottom: 50px;
+}
+
+.carousel-item img {
+  height: 100%;
+  object-fit: cover; /* or 'contain' if you want stretch instead of crop */
+}
+
+/* Container Border */
+#container {
+border: 12px solid #B22222;
+}
+
+.auto-col {
+	width: 472px !important;
+	float:right;
+	padding-top: 5px;
+	margin-top: 14px;
+	margin-left: 361px;
+	background-color:white;
+	font-family: Verdana, sans-serif;
+}
+
+.gaming-col {
+  width: 777px !important;
+  float: right;
+  padding-top: 0px;
+  margin-top: 11px;
+  margin-left: 6px;
+  background-color: white;
+}
+
+.banner-col {
+  width: 1961px !important;
+  float: right;
+  padding-top: 0px;
+  margin-top: 11px;
+  margin-left: 6px;
+  background-color: white;
+}
+
+.center-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  
+}
+
+.item img {
+	width: 100%;
+}
+
+
+
+.overlay-image {
+	position:absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 0;
+	background-position:center;
+	background-size: cover;
+}
+
+.carousel-indicators img {
+    width: 70px;
+    display: block;
+}
+.carousel-indicators button{
+	width: max-content!important;
+}
+.carousel-indicators{
+    position: unset;
+}
+
+.carousel-gaming-caption {
+  position: absolute;
+  right: 11%;
+  bottom: 3.8rem;
+  left: 6%;
+  padding-top: 1.25rem;
+  padding-bottom: 24.3rem;
+  color: #000;
+}
+
+.navbar-nav > li{
+  padding-left:30px;
+  padding-right:30px;
+}
+
+.navbar-nav > li{
+  margin-left:30px;
+  margin-right:30px;
+}

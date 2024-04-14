@@ -16,7 +16,7 @@
       <div class="form-group has-feedback" id="username-div">
         <label for="username" class="form-label">Enter a Username:</label>
         <input type="text" class="form-control" name="username" id="username"
-          placeholder="Please enter five or more characters" onblur="checkUsername()">
+          placeholder="Please enter five or more characters" onblur="checkUsername()" required>
         <span id="un-icon" class="glyphicon form-control-feedback" aria-hidden="true"></span>
         <!-- <span id="inputError2Status" class="sr-only">(error)</span> -->
         <span id="un-feedback" class="help-block"></span>
@@ -24,7 +24,7 @@
       <div class="form-group has-feedback" id="password-div">
         <label class="form-label" for="password">Enter a Password:</label>
         <input type="password" class="form-control" name="password" id="password"
-          placeholder="Please enter five or more characters" onblur="checkPassword()">
+          placeholder="Please enter five or more characters" onblur="checkPassword()" required>
         <span id="pw-icon" class="glyphicon form-control-feedback" aria-hidden="true"></span>
         <span id="pw-feedback" class="help-block"></span>
       </div>
@@ -34,7 +34,7 @@
     </form>
   </main>
 
-  <script src="assets/js/event-attributes.js"></script>
+  <script src="assets/js/event-listeners.js"></script>
 </body>
 
 </html>
