@@ -12,3 +12,22 @@ We are attempting to create the feel of a mash up of several different influence
   <li>Front End:        HTML/CSS/Javascript/Bootstrap 5</li>
   <li>Back End:         Node.JS/Express.JS/Javascript</li>
 </ul>
+
+<h2>How to Use Project Locally (FOR GRADER/PROFESSOR)</h2>
+<ol>
+  <li>Intall Node.JS</li>
+  <li>Open folder containing data and install dependencies by running command: "npm install".</li>
+  <li>To start a local server on port 3000 run the command: "npm start".</li>
+  <li>Open Chrome or another internet browser and navigate to "localhost:3000".</li>
+</ol>
+
+<h2>How to Access Online (FOR GRADER/PROFESSOR)</h2>
+<ol>
+  <li>You can navigate to: "3.144.178.121:3000/" to access our site online.</li>
+</ol>
+
+<h2>Known Bugs</h2>
+<ul>
+  <li>Currently register.html only works and connects to the DB to create users when using public IPv4 address at port 3000 (3.144.178.121:3000/register.html).</li>
+  <li>Currently the Express.JS server is listening on port 3000 and it is not being redirected properly through nginx.</li>
+</ul>
