@@ -35,6 +35,12 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
+/***** BEGIN TESTING ROUTES TO SEE IF ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
+app.get("/createUser", (reg, res) => {
+  res.send("I am here!!! SEE ME!!");
+});
+/***** END TESTING ROUTES TO SEE IF ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
+
 /***** BEGIN CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
 const bcrypt = require("bcrypt");
 app.use(express.urlencoded(/*{ extended: true }*/));
