@@ -36,9 +36,11 @@ app.get("/", (req, res) => {
 });
 
 /***** BEGIN TESTING ROUTES TO SEE IF ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
+/*** DELETE ONCE I FIGURE OUT HOW TO GET NGINX TO PLAY NICE WITH EXPRESS ***/
 app.get("/createUser", (reg, res) => {
   res.send("I am here!!! SEE ME!!");
 });
+/*** DELETE ONCE I FIGURE OUT HOW TO GET NGINX TO PLAY NICE WITH EXPRESS ***/
 /***** END TESTING ROUTES TO SEE IF ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
 
 /***** BEGIN CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
@@ -47,37 +49,40 @@ app.use(express.urlencoded(/*{ extended: true }*/));
 //middleware to read req.body.<params>
 //CREATE USER
 app.post("/createUser", async (req, res) => {
-  res.send("hello I am accesible!!!");
-  // const user = req.body.username;
-  // const hashedPassword = await bcrypt.hash(req.body.password, 10);
-  // db.getConnection(async (err, connection) => {
-  //   if (err) throw err;
-  //   // ? will be replaced by values
-  //   // ?? will be replaced by string
-  //   const sqlSearch = "SELECT * FROM userTable WHERE user = ?";
-  //   const search_query = mysql.format(sqlSearch, [user]);
-  //   const sqlInsert = "INSERT INTO userTable VALUES (0,?,?)";
-  //   const insert_query = mysql.format(sqlInsert, [user, hashedPassword]);
+  /*** TESTING DELETE WHEN FIGURE OUT HOW TO GET NGINX SERVER TO PLAY NICE WITH EXPRESS ***/
+  // res.send("hello I am accesible!!!");
+  /*** TESTING DELETE WHEN FIGURE OUT HOW TO GET NGINX SERVER TO PLAY NICE WITH EXPRESS ***/
 
-  //   await connection.query(search_query, async (err, result) => {
-  //     if (err) throw err;
-  //     console.log("------> Search Results");
-  //     console.log(result.length);
-  //     if (result.length != 0) {
-  //       connection.release();
-  //       console.log("------> User already exists");
-  //       res.sendStatus(409);
-  //     } else {
-  //       await connection.query(insert_query, (err, result) => {
-  //         connection.release();
-  //         if (err) throw err;
-  //         console.log("--------> Created new User");
-  //         console.log(result.insertId);
-  //         res.sendStatus(201).send("User added to database...");
-  //       });
-  //     }
-  //   }); //end of connection.query()
-  // }); //end of db.getConnection()
+  const user = req.body.username;
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    // ? will be replaced by values
+    // ?? will be replaced by string
+    const sqlSearch = "SELECT * FROM userTable WHERE user = ?";
+    const search_query = mysql.format(sqlSearch, [user]);
+    const sqlInsert = "INSERT INTO userTable VALUES (0,?,?)";
+    const insert_query = mysql.format(sqlInsert, [user, hashedPassword]);
+
+    await connection.query(search_query, async (err, result) => {
+      if (err) throw err;
+      console.log("------> Search Results");
+      console.log(result.length);
+      if (result.length != 0) {
+        connection.release();
+        console.log("------> User already exists");
+        res.sendStatus(409);
+      } else {
+        await connection.query(insert_query, (err, result) => {
+          connection.release();
+          if (err) throw err;
+          console.log("--------> Created new User");
+          console.log(result.insertId);
+          res.status(201).send(`${res.statusCode}: User added to database...`);
+        });
+      }
+    }); //end of connection.query()
+  }); //end of db.getConnection()
 }); //end of app.post()
 /***** END CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
 
