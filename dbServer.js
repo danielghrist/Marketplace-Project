@@ -5,6 +5,14 @@ const express = require("express");
 const mysql = require("mysql");
 const app = express();
 require("dotenv").config();
+const path = require("path");
+
+/***** TESTING EJS *****/
+/*** DELETE IF IT DOESN'T WORK ***/
+// Set the view engine to EJS:
+// app.set("view engine", "ejs");
+// app.set("views", path.join(__dirname, "/views"));
+/*** DELETE IF IT DOESN'T WORK ***/
 
 // Retrieve hidden data in .env file:
 const DB_HOST = process.env.DB_HOST;
@@ -28,7 +36,6 @@ db.getConnection((err, connection) => {
 });
 
 // The route to GET the main index.html page:
-const path = require("path");
 app.use(express.static(__dirname));
 console.log(path.join(__dirname, "index.html"));
 app.get("/", (req, res) => {
