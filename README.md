@@ -30,4 +30,5 @@ We are attempting to create the feel of a mash up of several different influence
 <ul>
   <li>Currently register.html only works and connects to the DB to create users when using public IPv4 address at port 3000 (3.144.178.121:3000/register.html).</li>
   <li>Currently the Express.JS server is listening on port 3000 and it is not being redirected properly through nginx.</li>
+  <li>The navbar isn't sizing properly currently.</li>
 </ul>
