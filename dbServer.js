@@ -7,11 +7,14 @@ const app = express();
 require("dotenv").config();
 const path = require("path");
 
+// Set up path for static files to be served:
+app.use(express.static(path.join(__dirname, "public")));
+
 /***** TESTING EJS *****/
 /*** DELETE IF IT DOESN'T WORK ***/
 // Set the view engine to EJS:
-// app.set("view engine", "ejs");
-// app.set("views", path.join(__dirname, "/views"));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "/views"));
 /*** DELETE IF IT DOESN'T WORK ***/
 
 // Retrieve hidden data in .env file:
@@ -36,10 +39,10 @@ db.getConnection((err, connection) => {
 });
 
 // The route to GET the main index.html page:
-app.use(express.static(__dirname));
 console.log(path.join(__dirname, "index.html"));
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.render("home");
+  // res.sendFile(path.join(__dirname, "index.html"));
 });
 
 /***** BEGIN TESTING ROUTES TO SEE IF ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
