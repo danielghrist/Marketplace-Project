@@ -1,0 +1,46 @@
+<%- include('partials/head') %>
+
+  <%- include('partials/navbar') %>
+
+    <!-- Start Registration Card -->
+    <div class="card mx-auto w-50 align-items-center my-5">
+      <h1 class="card-header text-center w-100">User Registration</h1>
+      <div class="card-body">
+        <h5 class="card-title">Please Register a User:</h5>
+        <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+        <form action="/createUser" class="row g-3 needs-validation" method="post" id="username-id" novalidate>
+          <div id="username-div">
+            <label for="username" class="form-label">Enter a Username:</label>
+            <input type="text" class="form-control" name="username" id="username"
+              placeholder="Please enter five or more characters" onblur="checkUsername()" required>
+            <div class="invalid-feedback">
+              Please choose a username.
+            </div>
+            <!-- <span id="un-icon" class="glyphicon form-control-feedback" aria-hidden="true"></span> -->
+            <!-- <span id="inputError2Status" class="sr-only">(error)</span> -->
+            <span id="un-feedback" class="help-block"></span>
+          </div>
+          <div id="password-div">
+            <label class="form-label" for="password">Enter a Password:</label>
+            <input type="password" class="form-control" name="password" id="password"
+              placeholder="Please enter five or more characters" onblur="checkPassword()" required>
+            <div class="invalid-feedback">
+              Please choose a password greater than five characters.
+            </div>
+            <!-- <span id="pw-icon" class="glyphicon form-control-feedback" aria-hidden="true"></span> -->
+            <span id="pw-feedback" class="help-block"></span>
+          </div>
+          <div class="text-center mb-3">
+            <button type="submit" class="btn btn-primary">Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- End Registration Card -->
+
+    <!-- JS validation Script: -->
+    <script src="/assets/js/event-listeners.js"></script>
+
+
+    <%- include('partials/footer') %>

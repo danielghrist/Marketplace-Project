@@ -45,7 +45,22 @@ app.get("/", (req, res) => {
   // res.sendFile(path.join(__dirname, "index.html"));
 });
 
+// Route to GET and serve shop page:
+app.get("/shop", (req, res) => {
+  res.render("shop");
+});
+
 /***** BEGIN TESTING ROUTES TO SEE IF ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
+// Route to GET and serve login page:
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+// Route to GET and serve register page:
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+
 /*** DELETE ONCE I FIGURE OUT HOW TO GET NGINX TO PLAY NICE WITH EXPRESS ***/
 app.get("/createUser", (reg, res) => {
   res.send("I am here!!! SEE ME!!");
@@ -57,7 +72,8 @@ app.get("/createUser", (reg, res) => {
 const bcrypt = require("bcrypt");
 app.use(express.urlencoded(/*{ extended: true }*/));
 //middleware to read req.body.<params>
-//CREATE USER
+
+//CREATE USER:
 app.post("/createUser", async (req, res) => {
   /*** TESTING DELETE WHEN FIGURE OUT HOW TO GET NGINX SERVER TO PLAY NICE WITH EXPRESS ***/
   // res.send("hello I am accesible!!!");
@@ -82,11 +98,14 @@ app.post("/createUser", async (req, res) => {
       if (result.length != 0) {
         connection.release();
         console.log("------> User already exists");
-        res
-          .status(409)
-          .send(
-            `<h1>Status ${res.statusCode}: This user has already registered and exists within the database.</h1>`
-          );
+        res.status(409).render("createUser", {
+          user,
+          text: "has already registered and exists within the database.",
+        });
+
+        // .send(
+        //   `<h1>Status ${res.statusCode}: This user has already registered and exists within the database.</h1>`
+        // );
       } else {
         await connection.query(insert_query, (err, result) => {
           connection.release();
@@ -95,9 +114,10 @@ app.post("/createUser", async (req, res) => {
           console.log(result.insertId);
           res
             .status(201)
-            .send(
-              `<h1>Status ${res.statusCode}: User added to database...</h1>`
-            );
+            .render("createUser", { user, text: "added to database..." });
+          // .send(
+          //   `<h1>Status ${res.statusCode}: User added to database...</h1>`
+          // );
         });
       }
     }); //end of connection.query()
