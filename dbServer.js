@@ -6,6 +6,7 @@ const mysql = require("mysql");
 const app = express();
 require("dotenv").config();
 const path = require("path");
+const bcrypt = require("bcrypt");
 
 // Set up path for static files to be served:
 app.use(express.static(path.join(__dirname, "public")));
@@ -53,6 +54,10 @@ app.get("/shop", (req, res) => {
   res.render("shop");
 });
 
+app.get("/collections", (reg, res) => {
+  res.render("collections/index");
+});
+
 /***** ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
 // Route to GET and serve login page:
 app.get("/login", (req, res) => {
@@ -60,10 +65,6 @@ app.get("/login", (req, res) => {
 });
 
 /***** BEGIN CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
-const bcrypt = require("bcrypt");
-
-//middleware to read req.body.<params>
-
 // Route to GET and serve register page:
 app.get("/register", (req, res) => {
   res.render("register");
@@ -98,10 +99,6 @@ app.post("/register", async (req, res) => {
           user,
           text: "has already registered and exists within the database.",
         });
-
-        // .send(
-        //   `<h1>Status ${res.statusCode}: This user has already registered and exists within the database.</h1>`
-        // );
       } else {
         await connection.query(insert_query, (err, result) => {
           connection.release();
@@ -111,9 +108,6 @@ app.post("/register", async (req, res) => {
           res
             .status(201)
             .render("createUser", { user, text: "added to database..." });
-          // .send(
-          //   `<h1>Status ${res.statusCode}: User added to database...</h1>`
-          // );
         });
       }
     }); //end of connection.query()
