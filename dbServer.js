@@ -8,6 +8,9 @@ require("dotenv").config();
 const path = require("path");
 const bcrypt = require("bcrypt");
 
+// Middelware used to get data out of form data send through urlencoded:
+app.use(express.urlencoded(/*{ extended: true }*/));
+
 // Set up path for static files to be served:
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -17,9 +20,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 /*** DELETE IF IT DOESN'T WORK ***/
-
-// Middelware used to get data out of form data send through urlencoded:
-app.use(express.urlencoded({ extended: true }));
 
 // Retrieve hidden data in .env file:
 const DB_HOST = process.env.DB_HOST;
@@ -80,6 +80,7 @@ app.post("/register", async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
   db.getConnection(async (err, connection) => {
     if (err) throw err;
+
     // ? will be replaced by values
     // ?? will be replaced by string
     const sqlSearch = "SELECT * FROM userTable WHERE user = ?";
@@ -87,7 +88,7 @@ app.post("/register", async (req, res) => {
     const sqlInsert = "INSERT INTO userTable VALUES (0,?,?)";
     const insert_query = mysql.format(sqlInsert, [user, hashedPassword]);
 
-    // Check if User exists:
+    // Check if User exists, if not add to DB:
     await connection.query(search_query, async (err, result) => {
       if (err) throw err;
       console.log("------> Search Results");
