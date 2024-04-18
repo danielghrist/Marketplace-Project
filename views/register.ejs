@@ -9,24 +9,24 @@
         <h5 class="card-title">Please Register a User:</h5>
         <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-        <form action="/createUser" class="row g-3 needs-validation" method="post" id="username-id" novalidate>
+        <form action="/register" class="row g-3 needs-validation" method="post" id="register-form" novalidate>
           <div id="username-div">
             <label for="username" class="form-label">Enter a Username:</label>
             <input type="text" class="form-control" name="username" id="username"
-              placeholder="Please enter five or more characters" onblur="checkUsername()" required>
+              placeholder="Please enter five or more characters" min="5" required>
             <div class="invalid-feedback">
-              Please choose a username.
+              Invalid Username.
             </div>
             <!-- <span id="un-icon" class="glyphicon form-control-feedback" aria-hidden="true"></span> -->
             <!-- <span id="inputError2Status" class="sr-only">(error)</span> -->
             <span id="un-feedback" class="help-block"></span>
           </div>
           <div id="password-div">
-            <label class="form-label" for="password">Enter a Password:</label>
+            <label for="password" class="form-label">Enter a Password:</label>
             <input type="password" class="form-control" name="password" id="password"
-              placeholder="Please enter five or more characters" onblur="checkPassword()" required>
+              placeholder="Please enter five or more characters" min="5" required>
             <div class="invalid-feedback">
-              Please choose a password greater than five characters.
+              Invalid Password.
             </div>
             <!-- <span id="pw-icon" class="glyphicon form-control-feedback" aria-hidden="true"></span> -->
             <span id="pw-feedback" class="help-block"></span>

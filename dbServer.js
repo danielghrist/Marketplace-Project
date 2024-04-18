@@ -17,6 +17,9 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 /*** DELETE IF IT DOESN'T WORK ***/
 
+// Middelware used to get data out of form data send through urlencoded:
+app.use(express.urlencoded({ extended: true }));
+
 // Retrieve hidden data in .env file:
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
@@ -50,31 +53,24 @@ app.get("/shop", (req, res) => {
   res.render("shop");
 });
 
-/***** BEGIN TESTING ROUTES TO SEE IF ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
+/***** ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
 // Route to GET and serve login page:
 app.get("/login", (req, res) => {
   res.render("login");
 });
+
+/***** BEGIN CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
+const bcrypt = require("bcrypt");
+
+//middleware to read req.body.<params>
 
 // Route to GET and serve register page:
 app.get("/register", (req, res) => {
   res.render("register");
 });
 
-/*** DELETE ONCE I FIGURE OUT HOW TO GET NGINX TO PLAY NICE WITH EXPRESS ***/
-app.get("/createUser", (reg, res) => {
-  res.send("I am here!!! SEE ME!!");
-});
-/*** DELETE ONCE I FIGURE OUT HOW TO GET NGINX TO PLAY NICE WITH EXPRESS ***/
-/***** END TESTING ROUTES TO SEE IF ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
-
-/***** BEGIN CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
-const bcrypt = require("bcrypt");
-app.use(express.urlencoded(/*{ extended: true }*/));
-//middleware to read req.body.<params>
-
-//CREATE USER:
-app.post("/createUser", async (req, res) => {
+// Create User in the MySQL Database:
+app.post("/register", async (req, res) => {
   /*** TESTING DELETE WHEN FIGURE OUT HOW TO GET NGINX SERVER TO PLAY NICE WITH EXPRESS ***/
   // res.send("hello I am accesible!!!");
   /*** TESTING DELETE WHEN FIGURE OUT HOW TO GET NGINX SERVER TO PLAY NICE WITH EXPRESS ***/
