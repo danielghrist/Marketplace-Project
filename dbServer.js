@@ -65,7 +65,7 @@ app.get("/collections", async (reg, res) => {
     await connection.query(sqlSearch, async (err, result) => {
       if (err) throw err;
       else {
-        const results = result;
+        results = result;
         res.render("collections/index", results);
       }
 
