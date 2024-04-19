@@ -1,43 +1,39 @@
-<%- include('partials/head') %>
+<% layout('layouts/boilerplate') %>
 
-  <%- include('partials/navbar') %>
-
-    <!-- Start Login Card -->
-    <div class="card mx-auto w-50 align-items-center my-5">
-      <h1 class="card-header text-center w-100">Login</h1>
-      <div class="card-body">
-        <h5 class="card-title">Please Login:</h5>
-        <form action="/login" class="row g-3 needs-validation" method="post" id="username-id" novalidate>
-          <div id="username-div">
-            <label for="username" class="form-label">Enter a Username:</label>
-            <input type="text" class="form-control" name="username" id="username" placeholder="Please enter a username"
-              required>
-            <div class="invalid-feedback">
-              Invalid username.
-            </div>
-            <!-- <span id="un-icon" class="glyphicon form-control-feedback" aria-hidden="true"></span> -->
-            <!-- <span id="inputError2Status" class="sr-only">(error)</span> -->
-            <span id="un-feedback" class="help-block"></span>
+  <!-- Start Login Card -->
+  <div class="card mx-auto w-50 align-items-center my-5">
+    <h1 class="card-header text-center w-100">Login</h1>
+    <div class="card-body">
+      <h5 class="card-title">Please Login:</h5>
+      <form action="/login" class="row g-3 needs-validation" method="post" id="username-id" novalidate>
+        <div id="username-div">
+          <label for="username" class="form-label">Enter a Username:</label>
+          <input type="text" class="form-control" name="username" id="username" placeholder="Please enter a username"
+            required>
+          <div class="invalid-feedback">
+            Invalid username.
           </div>
-          <div id="password-div">
-            <label class="form-label" for="password">Enter a Password:</label>
-            <input type="password" class="form-control" name="password" id="password"
-              placeholder="Please enter a password" required>
-            <div class="invalid-feedback">
-              Invalid password.
-            </div>
-            <!-- <span id="pw-icon" class="glyphicon form-control-feedback" aria-hidden="true"></span> -->
-            <span id="pw-feedback" class="help-block"></span>
+          <!-- <span id="un-icon" class="glyphicon form-control-feedback" aria-hidden="true"></span> -->
+          <!-- <span id="inputError2Status" class="sr-only">(error)</span> -->
+          <span id="un-feedback" class="help-block"></span>
+        </div>
+        <div id="password-div">
+          <label class="form-label" for="password">Enter a Password:</label>
+          <input type="password" class="form-control" name="password" id="password"
+            placeholder="Please enter a password" required>
+          <div class="invalid-feedback">
+            Invalid password.
           </div>
-          <div class="text-center mb-3">
-            <button type="submit" class="btn btn-primary">Login</button>
-          </div>
-        </form>
-      </div>
+          <!-- <span id="pw-icon" class="glyphicon form-control-feedback" aria-hidden="true"></span> -->
+          <span id="pw-feedback" class="help-block"></span>
+        </div>
+        <div class="text-center mb-3">
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+      </form>
     </div>
-    <!-- End Login Card -->
+  </div>
+  <!-- End Login Card -->
 
-    <!-- JS validation Script: -->
-    <script src="/assets/js/event-listeners.js"></script>
-
-    <%- include('partials/footer') %>
+  <!-- JS validation Script: -->
+  <script src="/assets/js/event-listeners.js"></script>

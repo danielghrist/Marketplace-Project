@@ -1,13 +1,9 @@
-<%- include('partials/head') %>
+<% layout('layouts/boilerplate') %>
 
-  <%- include('partials/navbar') %>
-
-    <div class="container w-50 my-5">
-      <h1>User: <b style="color: darkorange;">
-          <%= user%>
-        </b>
-        <%= text%>
-      </h1>
-    </div>
-
-    <%- include('partials/footer') %>
+  <div class="container w-50 my-5">
+    <h1>User: <b style="color: darkorange;">
+        <%= user%>
+      </b>
+      <%= text%>
+    </h1>
+  </div>

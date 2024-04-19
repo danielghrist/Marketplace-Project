@@ -3,6 +3,7 @@
 // Require Modules:
 const express = require("express");
 const mysql = require("mysql");
+const ejsMate = require("ejs-mate");
 const app = express();
 require("dotenv").config();
 const path = require("path");
@@ -17,6 +18,7 @@ app.use(express.static(path.join(__dirname, "public")));
 /***** TESTING EJS *****/
 /*** DELETE IF IT DOESN'T WORK ***/
 // Set the view engine to EJS:
+app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 /*** DELETE IF IT DOESN'T WORK ***/
@@ -115,6 +117,11 @@ app.post("/register", async (req, res) => {
   }); //end of db.getConnection()
 }); //end of app.post()
 /***** END CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
+
+// 404 Middleware if no other route matches:
+app.use((req, res) => {
+  res.status(404).send("NOT FOUND!");
+});
 
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Server Started on port ${port}...`));

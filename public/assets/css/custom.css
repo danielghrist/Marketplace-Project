@@ -1,6 +1,9 @@
-/*
-Custom Css
-*/
+/* Custom CSS */
+
+.header,
+.footer {
+  background-color: #222f5b !important;
+}
 
 .center {
   position: relative;
@@ -28,6 +31,7 @@ Custom Css
   color: #ee4035;
 }
 
+/* Begin Carousel CSS */
 .carousel-item {
   height: 500px;
   overflow: hidden;
@@ -51,6 +55,32 @@ Custom Css
   height: 100%;
   object-fit: cover; /* or 'contain' if you want stretch instead of crop */
 }
+
+.carousel-indicators img {
+  width: 70px;
+  display: block;
+}
+.carousel-indicators button {
+  width: max-content !important;
+}
+.carousel-indicators {
+  position: unset;
+}
+
+.carousel-gaming-caption {
+  position: absolute;
+  right: 11%;
+  bottom: 3.8rem;
+  left: 6%;
+  padding-top: 1.25rem;
+  padding-bottom: 24.3rem;
+  color: #000;
+}
+
+.carousel-inner {
+  padding: 1em;
+}
+/* End Carousel CSS */
 
 /* Container Border */
 #container {
@@ -107,27 +137,6 @@ Custom Css
   background-size: cover;
 }
 
-.carousel-indicators img {
-  width: 70px;
-  display: block;
-}
-.carousel-indicators button {
-  width: max-content !important;
-}
-.carousel-indicators {
-  position: unset;
-}
-
-.carousel-gaming-caption {
-  position: absolute;
-  right: 11%;
-  bottom: 3.8rem;
-  left: 6%;
-  padding-top: 1.25rem;
-  padding-bottom: 24.3rem;
-  color: #000;
-}
-
 /***** THIS IS WHERE THE ANNOYING MARGIN/PADDING WAS COMING FROM *****/
 /* .navbar-nav > li{
   padding-left:30px;
@@ -139,11 +148,7 @@ Custom Css
   margin-right:30px;
 } */
 
-.header,
-.footer {
-  background-color: #222f5b !important;
-}
-
+/* Begin Cards CSS */
 .cards-wrapper {
   display: flex;
   justify-content: center;
@@ -163,8 +168,6 @@ Custom Css
   margin: 0 0.5em;
   box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
   border: none;
-  border-radius: 0;
+  border-radius: 10px;
 }
-.carousel-inner {
-  padding: 1em;
-}
+/* End Cards CSS */
