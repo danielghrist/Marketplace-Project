@@ -139,8 +139,9 @@ Custom Css
   margin-right:30px;
 } */
 
-.bg-dark {
-  background-color: #0e1a40 !important;
+.header,
+.footer {
+  background-color: #222f5b !important;
 }
 
 .cards-wrapper {

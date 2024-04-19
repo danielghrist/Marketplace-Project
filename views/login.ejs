@@ -10,8 +10,8 @@
         <form action="/login" class="row g-3 needs-validation" method="post" id="username-id" novalidate>
           <div id="username-div">
             <label for="username" class="form-label">Enter a Username:</label>
-            <input type="text" class="form-control" name="username" id="username"
-              placeholder="Please enter five or more characters" onblur="checkUsername()" required>
+            <input type="text" class="form-control" name="username" id="username" placeholder="Please enter a username"
+              required>
             <div class="invalid-feedback">
               Invalid username.
             </div>
@@ -22,7 +22,7 @@
           <div id="password-div">
             <label class="form-label" for="password">Enter a Password:</label>
             <input type="password" class="form-control" name="password" id="password"
-              placeholder="Please enter five or more characters" onblur="checkPassword()" required>
+              placeholder="Please enter a password" required>
             <div class="invalid-feedback">
               Invalid password.
             </div>
