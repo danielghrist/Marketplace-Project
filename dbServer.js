@@ -56,8 +56,39 @@ app.get("/shop", (req, res) => {
   res.render("shop");
 });
 
-app.get("/collections", (reg, res) => {
-  res.render("collections/index");
+app.get("/collections", async (reg, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const sqlSearch = "SELECT * FROM testItems";
+
+    // Trying to get data from DB:
+    await connection.query(sqlSearch, async (err, result) => {
+      if (err) throw err;
+      else {
+        results = result;
+        res.render("collections/index", results);
+      }
+
+      // if (result.length != 0) {
+      //   connection.release();
+      //   console.log("------> User already exists");
+      //   res.status(409).render("createUser", {
+      //     user,
+      //     text: "has already registered and exists within the database.",
+      //   });
+      // } else {
+      //   await connection.query(insert_query, (err, result) => {
+      //     connection.release();
+      //     if (err) throw err;
+      //     console.log("--------> Created new User");
+      //     console.log(result.insertId);
+      //     res
+      //       .status(201)
+      //       .render("createUser", { user, text: "added to database..." });
+      //   });
+      // }
+    }); //end of connection.query()
+  }); //end of db.getConnection()
 });
 
 /***** ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
