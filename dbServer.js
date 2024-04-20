@@ -39,10 +39,10 @@ const db = mysql.createPool({
   database: DB_DATABASE, // Database name
   port: DB_PORT, // port name, "3306" by default
 });
-db.getConnection((err, connection) => {
-  if (err) throw err;
-  console.log("DB connected successful: " + connection.threadId);
-});
+// db.getConnection((err, connection) => {
+//   if (err) throw err;
+//   console.log("DB connected successful: " + connection.threadId);
+// });
 
 // The route to GET the main index.html page:
 console.log(path.join(__dirname, "index.html"));
@@ -68,25 +68,6 @@ app.get("/collections", async (reg, res) => {
         results = result;
         res.render("collections/index", results);
       }
-
-      // if (result.length != 0) {
-      //   connection.release();
-      //   console.log("------> User already exists");
-      //   res.status(409).render("createUser", {
-      //     user,
-      //     text: "has already registered and exists within the database.",
-      //   });
-      // } else {
-      //   await connection.query(insert_query, (err, result) => {
-      //     connection.release();
-      //     if (err) throw err;
-      //     console.log("--------> Created new User");
-      //     console.log(result.insertId);
-      //     res
-      //       .status(201)
-      //       .render("createUser", { user, text: "added to database..." });
-      //   });
-      // }
     }); //end of connection.query()
   }); //end of db.getConnection()
 });

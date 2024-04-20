@@ -15,7 +15,8 @@
       </thead>
       <tbody>
         <% for ( let res of results ) {%>
-          <tr>
+          <tr data-bs-toggle="modal" data-bs-target="#myModal" data-name="<%= res.Item_Name %>"
+            data-desc="<%= res.Item_Description %>" data-img="assets/img/<%= res.Item_Img_Name%>">
             <th scope="row">
               <%= res.Item_ID %>
             </th>
@@ -29,44 +30,63 @@
               <%= res.Item_Description %>
             </td>
             <td>
-              <%= res.Item_Purch_Date %>
+              <%= res.Item_Purch_Date.toDateString() %>
             </td>
             <td>
-              $<%= res.Item_Purch_Price %>
+              $<%= res.Item_Purch_Price.toFixed(2) %>
             </td>
           </tr>
           <% }%>
 
-            <!-- <tr>
-              <th scope="row">1</th>
-              <td>
-                <img src="assets/img/pokemonCollect.jpg" alt="" height="50px">
-              </td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>
-                <img src="assets/img/pokemonCollect.jpg" alt="" height="50px">
-              </td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>
-                <img src="assets/img/pokemonCollect.jpg" alt="" height="50px">
-              </td>
-              <td>Larry the Bird</td>
-              <td>Whatever...</td>
-              <td>@twitter</td>
-              <td>@mdo</td>
-            </tr> -->
+
+            <!-- TODO: Need to add in form functionality to allow adding to DB, also set up DB correctly   -->
+            <!-- Modal For Editing Collection-->
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header flex-column">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <div>
+                      <img src="" alt="" id="modalImg" width="100%">
+                    </div>
+                  </div>
+                  <div class="modal-body">
+                    Not sure if I can make this work dynamically...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
       </tbody>
     </table>
   </div>
+
+
+  <!-- Script to dynamically add collection items in the row that is clicked on into the Modal: -->
+  <script>
+    var myModal = document.getElementById('myModal');
+    var myInput = document.getElementById('myInput');
+
+    myModal.addEventListener('shown.bs.modal', function () {
+      // Trigger for the Modal:
+      var row = event.relatedTarget;
+
+      // Extract info from the data-* attributes I set up:
+      var itemName = row.getAttribute('data-name');
+      var itemDesc = row.getAttribute('data-desc');
+      var itemImg = row.getAttribute('data-img');
+
+      // Update the modal's content.
+      var modalTitle = myModal.querySelector('.modal-title')
+      var myInput = myModal.querySelector('.modal-body')
+      var myImg = myModal.querySelector('#modalImg').src = itemImg;
+
+      modalTitle.textContent = itemName;
+      myInput.textContent = itemDesc;
+      // myInput.focus();
+    });
+  </script>
