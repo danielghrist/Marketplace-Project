@@ -133,7 +133,10 @@ app.post("/register", async (req, res) => {
 
 // 404 Middleware if no other route matches:
 app.use((req, res) => {
-  res.status(404).send("NOT FOUND!");
+  res.status(404).render("notFound", {
+    status: res.statusCode,
+    text: "PAGE NOT FOUND!",
+  });
 });
 
 const port = process.env.PORT;
