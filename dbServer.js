@@ -66,6 +66,7 @@ app.get("/collections", async (reg, res) => {
       if (err) throw err;
       else {
         results = result;
+        connection.release();
         res.render("collections/index", results);
       }
     }); //end of connection.query()
