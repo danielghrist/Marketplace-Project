@@ -1,0 +1,65 @@
+<%- layout('layouts/boilerplate') %>
+
+  <div class="container text-center my-5">
+    <h1><strong>Edit Item in Collection: <%=Item_Name%></strong></h1>
+  </div>
+  <div class="container g-5 my-4">
+    <form action="/collections/<%=Item_ID%>?_method=PUT" method="post" class="needs-validation g-3" novalidate>
+      <div class="row mb-3">
+        <label for="item-name" class="col-sm-2 col-form-label">Item Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="item[name]" id="item-name"
+            placeholder="Please enter your item name." value="<%=Item_Name%>" required>
+          <!-- <div class="valid-feedback">Looks good!</div> -->
+          <div class="invalid-feedback">Invalid Item Name.</div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="item-desc" class="col-sm-2 col-form-label">Item Description</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" name="item[desc]" id="item-desc" cols="50" rows="5"
+            placeholder="Please enter an item description." required><%=Item_Description%></textarea>
+          <div class="invalid-feedback">Invalid Item Description.</div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="purch-date" class="col-sm-2 col-form-label">Purchase Date</label>
+        <div class="col-sm-10 col-md-2">
+          <%const formatter=new Intl.DateTimeFormat('en-US', { year: 'numeric' , month: '2-digit' , day: '2-digit' });%>
+            <%const formattedDate=formatter.format(Item_Purch_Date);%>
+              <input type="date" class="form-control" name="item[purchDate]" id="purch-date" value="<%=formattedDate%>"
+                required>
+              <%=formattedDate.toString().replaceAll( /[\/]/g , "-" )%>
+                <div class=" invalid-feedback">Invalid Item Purchase Date.
+                </div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="purch-price" class="col-sm-2 col-form-label">Purchase Price</label>
+        <div class="col-sm-10" col-md-2>
+          <input type="text" class="form-control" name="item[purchPrice]" id="purch-price"
+            placeholder="Please enter the item's purchase price." value="<%=Item_Purch_Price%>" required>
+          <div class=" invalid-feedback">Invalid Item Purchase Price.
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="item-img" class="col-sm-2 col-form-label">Image Upload</label>
+        <div class="col-sm-10" col-md-2>
+          <input type="file" class="form-control" name="item[img]" id="item-img" aria-label="file example"
+            value="<%=Item_Img_Name%>" file="<%=Item_Img_Name%>" required>
+          <div class="invalid-feedback">No file chosen.
+          </div>
+        </div>
+      </div>
+      <div class="text-center" style="color: red; font-weight: bold;">Purchase Date and Image File won't fill with their
+        respective current values.
+      </div>
+      <span class="d-flex justify-content-center my-5">
+        <button type="submit" class="btn btn-success">Edit Item</button>
+      </span>
+    </form>
+  </div>
+
+  <!-- JS validation Script: -->
+  <script src="/assets/js/event-listeners.js"></script>

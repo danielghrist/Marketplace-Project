@@ -4,7 +4,7 @@
     <h1 class="text-center">Collection</h1>
     <table class="table table-striped table-hover align-middle caption-top">
       <caption>Click on any row for more detail (Only DELETE button functionality works just pops ups modal
-        currently):
+        currently) Also don't know where files are being uploaded to so I can't find them, lol:
       </caption>
       <thead class="table-primary">
         <tr>
@@ -26,7 +26,7 @@
             </th>
             <td>
               <img src="assets/img/<%= res.Item_Img_Name%>" alt="<%= res.Item_Img_Name%> image"
-                title="<%= res.Item_Img_Name%> image" height="50px" , width="50px">
+                title="<%= res.Item_Img_Name%>" height="50px" , width="50px">
             </td>
             <td>
               <%= res.Item_Name %>
@@ -63,10 +63,15 @@
                       <form id="delete-form" action="" method="POST">
                         <button class="btn btn-danger">DELETE</button>
                     </span>
+                    </form>
                     <span><button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         style="cursor: pointer;">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
+                      <!-- <form id="edit-form" action="" method="POST"> -->
+                      <!-- <button type="button" class="btn btn-primary">Edit</button> -->
+                      <a href="" class="btn btn-primary" id="edit-btn">Edit</a>
+                      <!-- </form> -->
                     </span>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -95,12 +100,13 @@
       var modalTitle = myModal.querySelector('.modal-title')
       var myInput = myModal.querySelector('.modal-body')
       var myImg = myModal.querySelector('#modalImg').src = itemImg;
-      var myForm = myModal.querySelector('#delete-form');
+      var deleteForm = myModal.querySelector('#delete-form');
+      var editBtn = myModal.querySelector('#edit-btn');
 
       modalTitle.textContent = itemName;
       myInput.textContent = itemDesc;
-      myForm.action = '/collections/' + itemId + '?_method=DELETE';
-
+      deleteForm.action = '/collections/' + itemId + '?_method=DELETE';
+      editBtn.href = '/collections/' + itemId + '/edit';
       // myInput.focus();
     });
   </script>

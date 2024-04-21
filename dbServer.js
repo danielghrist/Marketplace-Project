@@ -154,7 +154,7 @@ app.delete("/collections/:id", async (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
     const { id } = req.params;
-    const sqlQuery = " DELETE FROM testItems WHERE Item_ID = ?";
+    const sqlQuery = "DELETE FROM testItems WHERE Item_ID = ?";
 
     // Trying to get data from DB:
     await connection.query(sqlQuery, [id], async (err, result) => {
@@ -165,6 +165,52 @@ app.delete("/collections/:id", async (req, res) => {
         res.redirect("/collections");
       }
     }); //end of connection.query()
+  }); //end of db.getConnection()
+});
+
+// Route to go to Update/Edit Collection screen with values pre-filled:
+app.get("/collections/:id/edit", async (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const { id } = req.params;
+    const sqlQuery = "SELECT * FROM testItems WHERE Item_ID = ?";
+
+    // Trying to get data from DB:
+    await connection.query(sqlQuery, [id], async (err, result) => {
+      if (err) throw err;
+      else {
+        results = result;
+        connection.release();
+        // req.flash("success", "Successfully edited collection item.");
+        res.render("collections/edit", results[0]);
+      }
+    }); //end of connection.query()
+  }); //end of db.getConnection()
+});
+
+// Route to UPDATE/PUT or change/edit data for the current item:
+app.put("/collections/:id", async (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const item = req.body.item;
+    const { id } = req.params;
+    console.log(item);
+    const sqlQuery = `UPDATE testItems SET Item_Img_Name = ?, 
+    Item_Name = ?, Item_Description = ?, Item_Purch_Date = ?, Item_Purch_Price = ? WHERE Item_ID = ?`;
+
+    // Trying to get data from DB:
+    await connection.query(
+      sqlQuery,
+      [item.img, item.name, item.desc, item.purchDate, item.purchPrice, id],
+      async (err, result) => {
+        if (err) throw err;
+        else {
+          connection.release();
+          req.flash("success", `Successfully edited ${item.name}.`);
+          res.redirect("/collections");
+        }
+      }
+    ); //end of connection.query()
   }); //end of db.getConnection()
 });
 
