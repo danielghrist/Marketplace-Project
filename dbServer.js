@@ -145,6 +145,34 @@ app.delete("/collections/:id", async (req, res) => {
     }); //end of connection.query()
   }); //end of db.getConnection()
 });
+
+// Route to go to new form to create new Collection item:
+app.get("/collections/new", (req, res) => {
+  res.render("collections/new");
+});
+
+// Route to Create new item in Collection:
+app.post("/collections", async (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const item = req.body.item;
+    console.log(item);
+    const sqlQuery = " INSERT INTO testItems VALUES(0, ?, ?, ?, ?, ?)";
+
+    // Trying to get data from DB:
+    await connection.query(
+      sqlQuery,
+      [item.img, item.name, item.desc, item.purchDate, item.purchPrice],
+      async (err, result) => {
+        if (err) throw err;
+        else {
+          connection.release();
+          res.redirect("/collections");
+        }
+      }
+    ); //end of connection.query()
+  }); //end of db.getConnection()
+});
 /***** END COLLECTIONS ROUTES: *****/
 
 /***** ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
