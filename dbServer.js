@@ -188,7 +188,7 @@ app.get("/collections/:id/edit", async (req, res) => {
   }); //end of db.getConnection()
 });
 
-// Route to UPDATE/PUT or change/edit data for the current item:
+// Route to UPDATE/PUT or change/edit data for the current Collection item:
 app.put("/collections/:id", async (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
@@ -245,11 +245,6 @@ app.post("/collections", async (req, res) => {
 /***** END COLLECTIONS ROUTES: *****/
 
 /***** ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
-// Route to GET and serve login page:
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-
 /***** BEGIN CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
 // Route to GET and serve register page:
 app.get("/register", (req, res) => {
@@ -282,25 +277,69 @@ app.post("/register", async (req, res) => {
       if (result.length != 0) {
         connection.release();
         console.log("------> User already exists");
-        res.status(409).render("createUser", {
-          user,
-          text: "has already registered and exists within the database.",
-        });
+        req.flash(
+          "error",
+          "The user you are attempting to register already exists, please login."
+        );
+        res.status(409).redirect("/login");
       } else {
         await connection.query(insert_query, (err, result) => {
           connection.release();
           if (err) throw err;
           console.log("--------> Created new User");
           console.log(result.insertId);
-          res
-            .status(201)
-            .render("createUser", { user, text: "added to database..." });
+          req.session.user_id = result.userId;
+          req.flash("success", "Successfully registered user and logged in.");
+          res.status(201).redirect("/");
+          // .render("createUser", { user, text: "added to database..." });
         });
       }
     }); //end of connection.query()
   }); //end of db.getConnection()
 }); //end of app.post()
 /***** END CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
+
+// Route to GET and serve login page:
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+// Route to Authenticate User Login Credentials and save to session:
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  db.query(
+    "SELECT * FROM userTable WHERE user = ?",
+    [username],
+    async (err, result) => {
+      if (err) throw err;
+      const validPassword = await bcrypt.compare(password, result[0].password);
+
+      if (validPassword) {
+        console.log(result, result[0]);
+        req.session.user_id = result[0].userId;
+        req.flash("success", "Successfully Logged In.");
+        res.redirect("/");
+      } else {
+        req.flash("error", "Invalid Login Credentials, Please Try Again.");
+        res.redirect("/login");
+      }
+    }
+  );
+});
+
+app.post("/logout", (req, res) => {
+  req.session.user_id = null;
+  req.flash("success", "You have been successfully logged out.");
+  res.redirect("/login");
+});
+
+app.get("/secret", (req, res) => {
+  if (!req.session.user_id) {
+    res.redirect("/login");
+  } else {
+    res.send("THIS IS SECRET YOU CANT SEE MEEEEEEEEEE!!!");
+  }
+});
 
 // 404 Middleware if no other route matches:
 app.use((req, res) => {
