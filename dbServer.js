@@ -9,6 +9,8 @@ require("dotenv").config();
 const path = require("path");
 const bcrypt = require("bcrypt");
 const methodOverride = require("method-override");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 // Ovveried POST request with "?_method=DELETE" to be able to send PUT/PATCH/DELETE requests using:
 // Middleware
@@ -28,6 +30,29 @@ app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 /*** DELETE IF IT DOESN'T WORK ***/
+
+// Session middle-ware, express-session for keeping track of things via encoded cookie data:
+const sessionOptions = {
+  secret: "thisisnotagoodsecret",
+  resave: false,
+  saveUninitialized: false, // Doesn't save new, but unmodified sessions.
+  cookie: {
+    httpOnly: true, // From the documentation
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // Date.now() returns time in milliseconds
+    maxAge: 1000 * 60 * 60 * 24 * 7, // This is one week 1 sec * 60 secs/min * 60 min/hr * 24 hr/day * 7 days/week
+  },
+};
+app.use(session(sessionOptions));
+
+// Middle-ware module to allow messages to be sent through redirects so we can have alerts:
+app.use(flash());
+
+// Middle-ware using express-flash so in every req we have access to all variables inside res.locals:
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 // TODO: MOVE ALL THE DB STUFF TO NEW FILE WHEN REFACTORING JUST GOTTA GET WORKING NOW
 /***** BEGIN CREATE DB CONNECTIONS & SQL QUERIES TO BE MOVED TO DB FILE LATER *****/
@@ -51,12 +76,7 @@ const db = mysql.createPool({
 //   if (err) throw err;
 //   console.log("DB connected successful: " + connection.threadId);
 // });
-
-// const results = db.query("SELECT * FROM testProducts");
-// console.log(results);
-// connection.release();
-
-/***** END CREATE DB CONNECTIONS & SQL QUERIES TO BE MOVED TO DB FILE LATER *****/
+/***** END CREATE DB POOL & SQL QUERIES TO BE MOVED TO DB FILE LATER *****/
 
 // The route to GET the main index.html page:
 console.log(path.join(__dirname, "index.html"));
@@ -102,6 +122,7 @@ app.delete("/products/:id", async (req, res) => {
       if (err) throw err;
       else {
         connection.release();
+        req.flash("success", "Successfully deleted product.");
         res.redirect("/products");
       }
     }); //end of connection.query()
@@ -140,6 +161,7 @@ app.delete("/collections/:id", async (req, res) => {
       if (err) throw err;
       else {
         connection.release();
+        req.flash("success", "Successfully deleted collection item.");
         res.redirect("/collections");
       }
     }); //end of connection.query()
@@ -167,6 +189,7 @@ app.post("/collections", async (req, res) => {
         if (err) throw err;
         else {
           connection.release();
+          req.flash("success", "Successfully created a new collection item.");
           res.redirect("/collections");
         }
       }
