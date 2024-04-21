@@ -28,7 +28,11 @@ We are attempting to create the feel of a mash up of several different influence
 
 <h2>Known Bugs</h2>
 <ul>
-  <li>Currently register.html only works and connects to the DB to create users when using public IPv4 address at port 3000 (3.144.178.121:3000/register.html).</li>
+  <li>Currently the entire site only works when using public IPv4 address at port 3000 (3.144.178.121:3000/register.html).</li>
   <li>Currently the Express.JS server is listening on port 3000 and it is not being redirected properly through nginx.</li>
-  <li>The navbar isn't sizing properly currently.</li>
+  <li><s>The navbar isn't sizing properly currently</s>. (FIXED)</li>
+  <li>The Modals (popups) on the collection view site are not able to be closed on smaller screen like iPhone.</li>
+  <li>When editing the collection the Date Purchased and the Image File are not pre-populating.</li>
+  <li>The BootStrap Accordian on the shop page is broken since I disabled the template CSS file as it was causing more trouble than it was worth.</li>
+  <li>There is currently no search functionality.</li>
 </ul>
