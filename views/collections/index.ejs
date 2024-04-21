@@ -18,7 +18,8 @@
       <tbody>
         <% for ( let res of results ) {%>
           <tr data-bs-toggle="modal" data-bs-target="#myModal" data-name="<%= res.Item_Name %>"
-            data-desc="<%= res.Item_Description %>" data-img="assets/img/<%= res.Item_Img_Name%>">
+            data-desc="<%= res.Item_Description %>" data-img="assets/img/<%= res.Item_Img_Name%>"
+            data-id="<%= res.Item_ID %>">
             <th scope="row">
               <%= res.Item_ID %>
             </th>
@@ -41,7 +42,7 @@
           <% }%>
 
 
-            <!-- TODO: Need to add in form functionality to allow adding to DB, also set up DB correctly   -->
+            <!-- TODO: Add in form functionality to allow Creating/Editing/Deleting. Add User functionality   -->
             <!-- Modal For Editing Collection-->
             <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog">
@@ -54,11 +55,15 @@
                     </div>
                   </div>
                   <div class="modal-body text-center">
-                    Not sure if I can make this work dynamically...
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                  <div class="modal-footer justify-content-between">
+                    <span>
+                      <form id="delete-form" action="" method="POST">
+                        <button class="btn btn-sm btn-danger">DELETE</button>
+                    </span>
+                    <span><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -81,14 +86,18 @@
       var itemName = row.getAttribute('data-name');
       var itemDesc = row.getAttribute('data-desc');
       var itemImg = row.getAttribute('data-img');
+      var itemId = row.getAttribute('data-id');
 
       // Update the modal's content.
       var modalTitle = myModal.querySelector('.modal-title')
       var myInput = myModal.querySelector('.modal-body')
       var myImg = myModal.querySelector('#modalImg').src = itemImg;
+      var myForm = myModal.querySelector('#delete-form');
 
       modalTitle.textContent = itemName;
       myInput.textContent = itemDesc;
+      myForm.action = '/collections/' + itemId + '?_method=DELETE';
+
       // myInput.focus();
     });
   </script>
