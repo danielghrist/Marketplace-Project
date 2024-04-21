@@ -8,9 +8,15 @@ const app = express();
 require("dotenv").config();
 const path = require("path");
 const bcrypt = require("bcrypt");
+const methodOverride = require("method-override");
+
+// Ovveried POST request with "?_method=DELETE" to be able to send PUT/PATCH/DELETE requests using:
+// Middleware
+app.use(methodOverride("_method"));
 
 // Middelware used to get data out of form data send through urlencoded:
 app.use(express.urlencoded(/*{ extended: true }*/));
+app.use(express.json());
 
 // Set up path for static files to be served:
 app.use(express.static(path.join(__dirname, "public")));
@@ -23,6 +29,8 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 /*** DELETE IF IT DOESN'T WORK ***/
 
+// TODO: MOVE ALL THE DB STUFF TO NEW FILE WHEN REFACTORING JUST GOTTA GET WORKING NOW
+/***** BEGIN CREATE DB CONNECTIONS & SQL QUERIES TO BE MOVED TO DB FILE LATER *****/
 // Retrieve hidden data in .env file:
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
@@ -44,6 +52,12 @@ const db = mysql.createPool({
 //   console.log("DB connected successful: " + connection.threadId);
 // });
 
+// const results = db.query("SELECT * FROM testProducts");
+// console.log(results);
+// connection.release();
+
+/***** END CREATE DB CONNECTIONS & SQL QUERIES TO BE MOVED TO DB FILE LATER *****/
+
 // The route to GET the main index.html page:
 console.log(path.join(__dirname, "index.html"));
 app.get("/", (req, res) => {
@@ -51,18 +65,59 @@ app.get("/", (req, res) => {
   // res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// Route to GET and serve shop page:
-app.get("/shop", (req, res) => {
-  res.render("shop");
-});
-
-app.get("/collections", async (reg, res) => {
+/***** BEGIN SHOP/PRODUCTS ROUTES: *****/
+// Route to GET and serve shop/index page:
+app.get("/products", async (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
-    const sqlSearch = "SELECT * FROM testItems";
+    const sqlQuery = "SELECT * FROM testProducts";
 
     // Trying to get data from DB:
-    await connection.query(sqlSearch, async (err, result) => {
+    await connection.query(sqlQuery, async (err, result) => {
+      if (err) throw err;
+      else {
+        results = result;
+        connection.release();
+        res.render("products/shop", results);
+      }
+    }); //end of connection.query()
+  }); //end of db.getConnection()
+});
+
+// Route to GET and serve single item show page:
+app.get("/products/:id", async (req, res) => {
+  // TODO: ADD FUNCTIONALITY TO THIS ROUTE.
+  res.render("products/show");
+});
+
+// Route to DELETE product from Products page and DB:
+app.delete("/products/:id", async (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const { id } = req.params;
+    const sqlQuery = " DELETE FROM testProducts WHERE Product_ID = ?";
+
+    // Trying to get data from DB:
+    await connection.query(sqlQuery, [id], async (err, result) => {
+      if (err) throw err;
+      else {
+        connection.release();
+        res.redirect("/products");
+      }
+    }); //end of connection.query()
+  }); //end of db.getConnection()
+});
+/***** END SHOP/PRODUCTS ROUTES: *****/
+
+/***** BEGIN COLLECTIONS ROUTES: *****/
+// Route to GET and serve entire Collection page:
+app.get("/collections", async (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const sqlQuery = "SELECT * FROM testItems";
+
+    // Trying to get data from DB:
+    await connection.query(sqlQuery, async (err, result) => {
       if (err) throw err;
       else {
         results = result;
@@ -72,6 +127,25 @@ app.get("/collections", async (reg, res) => {
     }); //end of connection.query()
   }); //end of db.getConnection()
 });
+
+// Route to DELETE item from Collections page and DB:
+app.delete("/collections/:id", async (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const { id } = req.params;
+    const sqlQuery = " DELETE FROM testItems WHERE Item_ID = ?";
+
+    // Trying to get data from DB:
+    await connection.query(sqlQuery, [id], async (err, result) => {
+      if (err) throw err;
+      else {
+        connection.release();
+        res.redirect("/collections");
+      }
+    }); //end of connection.query()
+  }); //end of db.getConnection()
+});
+/***** END COLLECTIONS ROUTES: *****/
 
 /***** ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
 // Route to GET and serve login page:
