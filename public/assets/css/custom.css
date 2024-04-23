@@ -172,6 +172,11 @@
 }
 /* End Cards CSS */
 
+/* Add class to have rows in view collection show pointer that makes it obvious they are clickable */
+.clickable {
+  cursor: pointer;
+}
+
 /***** THIS CSS IS FROM THE CUSTOM TEMPLATEMO.CSS FILE WE CAN USE OR CHANGE *****/
 /* Footer */
 #tempaltemo_footer a {
