@@ -18,7 +18,7 @@
       </thead>
       <tbody>
         <% for ( let res of results ) {%>
-          <tr data-bs-toggle="modal" data-bs-target="#myModal" data-name="<%= res.Item_Name %>"
+          <tr class="clickable" data-bs-toggle="modal" data-bs-target="#myModal" data-name="<%= res.Item_Name %>"
             data-desc="<%= res.Item_Description %>" data-img="assets/img/<%= res.Item_Img_Name%>"
             data-id="<%= res.Item_ID %>">
             <th scope="row">
@@ -64,8 +64,8 @@
                         <button class="btn btn-danger">DELETE</button>
                     </span>
                     </form>
-                    <span><button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        style="cursor: pointer;">Close</button>
+                    <span><button type="button" class="btn btn-secondary clickable"
+                        data-bs-dismiss="modal">Close</button>
                       <!-- <form id="edit-form" action="" method="POST"> -->
                       <!-- <button type="button" class="btn btn-primary">Edit</button> -->
                       <a href="" class="btn btn-primary" id="edit-btn">Edit</a>
