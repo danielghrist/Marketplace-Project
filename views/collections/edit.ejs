@@ -25,18 +25,23 @@
       <div class="row mb-3">
         <label for="purch-date" class="col-sm-2 col-form-label">Purchase Date</label>
         <div class="col-sm-10 col-md-2">
-          <%const formatter=new Intl.DateTimeFormat('en-US', { year: 'numeric' , month: '2-digit' , day: '2-digit' });%>
-            <%const formattedDate=formatter.format(Item_Purch_Date);%>
-              <input type="date" class="form-control" name="item[purchDate]" id="purch-date" value="<%=formattedDate%>"
-                required>
-              <%=formattedDate.toString().replaceAll( /[\/]/g , "-" )%>
-                <div class=" invalid-feedback">Invalid Item Purchase Date.
-                </div>
+
+          <!-- JavaScript to format the date properly so it can be inserted as the default value when editing: -->
+          <% date=Item_Purch_Date; %>
+            <% const year=date.getFullYear();%>
+              <% const month=String(date.getMonth() + 1).padStart(2,'0');%>
+                <% const day=String(date.getDate()).padStart(2, '0' );%>
+                  <% const newFormattedDate=`${year}-${month}-${day}`; %>
+
+                    <input type="date" class="form-control" name="item[purchDate]" id="purch-date"
+                      value="<%=newFormattedDate%>" required>
+                    <div class="invalid-feedback">Invalid Purchase Date.
+                    </div>
         </div>
       </div>
       <div class="row mb-3">
         <label for="purch-price" class="col-sm-2 col-form-label">Purchase Price</label>
-        <div class="col-sm-10" col-md-2>
+        <div class="col-sm-10">
           <input type="text" class="form-control" name="item[purchPrice]" id="purch-price"
             placeholder="Please enter the item's purchase price." value="<%=Item_Purch_Price%>" required>
           <div class=" invalid-feedback">Invalid Item Purchase Price.
@@ -45,17 +50,18 @@
       </div>
       <div class="row mb-3">
         <label for="item-img" class="col-sm-2 col-form-label">Image Upload</label>
-        <div class="col-sm-10" col-md-2>
+        <div class="col-sm-10">
           <input type="file" class="form-control" name="item[img]" id="item-img" aria-label="file example"
             value="<%=Item_Img_Name%>" file="<%=Item_Img_Name%>" required>
           <div class="invalid-feedback">No file chosen.
           </div>
         </div>
       </div>
-      <div class="text-center" style="color: red; font-weight: bold;">Purchase Date and Image File won't fill with their
+      <div class="text-center" style="color: red; font-weight: bold;">Image File won't pre-pop with the
         respective current values.
       </div>
-      <span class="d-flex justify-content-center my-5">
+      <span class="d-flex justify-content-evenly my-5">
+        <a href="/collections" class="btn btn-primary px-4">Back</a>
         <button type="submit" class="btn btn-success">Edit Item</button>
       </span>
     </form>
