@@ -53,7 +53,7 @@ const isLoggedIn = (req, res, next) => {
 // Middle-ware module to allow messages to be sent through redirects so we can have alerts:
 app.use(flash());
 
-// Middle-ware using express-flash so in every req we have access to all variables inside res.locals:
+// Middle-ware which makes variables available to all templates and routes. Sets flash alerts and session user:
 app.use((req, res, next) => {
   // res.locals.userId = req.session.user_id;
   res.locals.currentUser = req.session.user;
@@ -271,10 +271,6 @@ app.get("/register", (req, res) => {
 
 // Create User in the MySQL Database:
 app.post("/register", async (req, res) => {
-  /*** TESTING DELETE WHEN FIGURE OUT HOW TO GET NGINX SERVER TO PLAY NICE WITH EXPRESS ***/
-  // res.send("hello I am accesible!!!");
-  /*** TESTING DELETE WHEN FIGURE OUT HOW TO GET NGINX SERVER TO PLAY NICE WITH EXPRESS ***/
-
   const user = req.body.username;
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
   db.getConnection(async (err, connection) => {
@@ -310,7 +306,6 @@ app.post("/register", async (req, res) => {
           req.session.user = result[0];
           req.flash("success", "Successfully registered user and logged in.");
           res.status(201).redirect("/");
-          // .render("createUser", { user, text: "added to database..." });
         });
       }
     }); //end of connection.query()
