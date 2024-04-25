@@ -302,11 +302,23 @@ app.post("/register", async (req, res) => {
           connection.release();
           if (err) throw err;
           console.log("--------> Created new User");
-          console.log(result.insertId);
+          console.log("result.insertID: ", result.insertId);
+          console.log("reslt: ", result);
           // req.session.user_id = result.userId;
-          req.session.user = result[0];
-          req.flash("success", "Successfully registered user and logged in.");
-          res.status(201).redirect("/");
+          db.query(
+            "SELECT * FROM userTable WHERE user = ?",
+            [user],
+            async (err, result) => {
+              if (err) throw err;
+              req.session.user = result[0];
+              console.log("Session: ", req.session.user);
+              req.flash(
+                "success",
+                "Successfully registered user and logged in."
+              );
+              return res.status(201).redirect("/");
+            }
+          );
         });
       }
     }); //end of connection.query()
