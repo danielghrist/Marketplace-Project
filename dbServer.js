@@ -44,6 +44,7 @@ app.use(session(sessionOptions));
 // Middle-ware function to require User is logged in:
 const isLoggedIn = (req, res, next) => {
   if (!req.session.user) {
+    req.session.returnTo = req.originalUrl;
     req.flash("error", "You must be logged in.");
     return res.redirect("/login");
   }
@@ -336,7 +337,9 @@ app.post("/login", async (req, res) => {
         req.session.user = result[0];
         console.log(req.session);
         req.flash("success", "Successfully Logged In.");
-        res.redirect("/");
+        const redirectUrl = req.session.returnTo || "/";
+        delete req.session.returnTo;
+        res.redirect(redirectUrl);
       } else {
         req.flash("error", "Invalid Login Credentials, Please Try Again.");
         res.redirect("/login");
