@@ -64,15 +64,23 @@
               <i class="fa-solid fa-user"></i>
             </a>
             <ul class="dropdown-menu" aria-labelledby="userDropdown">
-              <li><a class="dropdown-item" href="/register">Register</a></li>
-              <li><a class="dropdown-item" href="/login">Login</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li>
-                <form class="dropdown-item" action="/logout" method="post"><button class="btn btn-danger">Sign
-                    Out</button></form>
-              </li>
+              <% if (!currentUser) { %>
+                <li><a class="dropdown-item" href="/register">Register</a></li>
+                <li><a class="dropdown-item" href="/login">Login</a></li>
+                <% } else { %>
+                  <li class="text-center">
+                    <strong>
+                      <%= currentUser.user %>
+                    </strong>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li>
+                    <form class="dropdown-item" action="/logout" method="post"><button class="btn btn-danger">Sign
+                        Out</button></form>
+                  </li>
+                  <% } %>
             </ul>
           </li>
           <li class="nav-item dropdown">

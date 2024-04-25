@@ -23,13 +23,10 @@ app.use(express.json());
 // Set up path for static files to be served:
 app.use(express.static(path.join(__dirname, "public")));
 
-/***** TESTING EJS *****/
-/*** DELETE IF IT DOESN'T WORK ***/
 // Set the view engine to EJS:
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
-/*** DELETE IF IT DOESN'T WORK ***/
 
 // Session middle-ware, express-session for keeping track of things via encoded cookie data:
 const sessionOptions = {
@@ -44,18 +41,31 @@ const sessionOptions = {
 };
 app.use(session(sessionOptions));
 
+// Middle-ware function to require User is logged in:
+const isLoggedIn = (req, res, next) => {
+  if (!req.session.user) {
+    req.flash("error", "You must be logged in.");
+    return res.redirect("/login");
+  }
+  next();
+};
+
 // Middle-ware module to allow messages to be sent through redirects so we can have alerts:
 app.use(flash());
 
 // Middle-ware using express-flash so in every req we have access to all variables inside res.locals:
 app.use((req, res, next) => {
+  // res.locals.userId = req.session.user_id;
+  res.locals.currentUser = req.session.user;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
 });
 
+/**********************************************************************************/
 // TODO: MOVE ALL THE DB STUFF TO NEW FILE WHEN REFACTORING JUST GOTTA GET WORKING NOW
 /***** BEGIN CREATE DB CONNECTIONS & SQL QUERIES TO BE MOVED TO DB FILE LATER *****/
+/**********************************************************************************/
 // Retrieve hidden data in .env file:
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
@@ -76,7 +86,9 @@ const db = mysql.createPool({
 //   if (err) throw err;
 //   console.log("DB connected successful: " + connection.threadId);
 // });
+/*************************************************************************/
 /***** END CREATE DB POOL & SQL QUERIES TO BE MOVED TO DB FILE LATER *****/
+/*************************************************************************/
 
 // The route to GET the main index.html page:
 console.log(path.join(__dirname, "index.html"));
@@ -85,7 +97,9 @@ app.get("/", (req, res) => {
   // res.sendFile(path.join(__dirname, "index.html"));
 });
 
+/***************************************/
 /***** BEGIN SHOP/PRODUCTS ROUTES: *****/
+/***************************************/
 // Route to GET and serve shop/index page:
 app.get("/products", async (req, res) => {
   db.getConnection(async (err, connection) => {
@@ -111,7 +125,7 @@ app.get("/products/:id", async (req, res) => {
 });
 
 // Route to DELETE product from Products page and DB:
-app.delete("/products/:id", async (req, res) => {
+app.delete("/products/:id", isLoggedIn, async (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
     const { id } = req.params;
@@ -128,11 +142,15 @@ app.delete("/products/:id", async (req, res) => {
     }); //end of connection.query()
   }); //end of db.getConnection()
 });
+/*************************************/
 /***** END SHOP/PRODUCTS ROUTES: *****/
+/*************************************/
 
+/*************************************/
 /***** BEGIN COLLECTIONS ROUTES: *****/
+/*************************************/
 // Route to GET and serve entire Collection page:
-app.get("/collections", async (req, res) => {
+app.get("/collections", isLoggedIn, async (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
     const sqlQuery = "SELECT * FROM testItems";
@@ -150,7 +168,7 @@ app.get("/collections", async (req, res) => {
 });
 
 // Route to DELETE item from Collections page and DB:
-app.delete("/collections/:id", async (req, res) => {
+app.delete("/collections/:id", isLoggedIn, async (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
     const { id } = req.params;
@@ -169,7 +187,7 @@ app.delete("/collections/:id", async (req, res) => {
 });
 
 // Route to go to Update/Edit Collection screen with values pre-filled:
-app.get("/collections/:id/edit", async (req, res) => {
+app.get("/collections/:id/edit", isLoggedIn, async (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
     const { id } = req.params;
@@ -189,7 +207,7 @@ app.get("/collections/:id/edit", async (req, res) => {
 });
 
 // Route to UPDATE/PUT or change/edit data for the current Collection item:
-app.put("/collections/:id", async (req, res) => {
+app.put("/collections/:id", isLoggedIn, async (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
     const item = req.body.item;
@@ -215,12 +233,12 @@ app.put("/collections/:id", async (req, res) => {
 });
 
 // Route to go to new form to create new Collection item:
-app.get("/collections/new", (req, res) => {
+app.get("/collections/new", isLoggedIn, (req, res) => {
   res.render("collections/new");
 });
 
 // Route to Create new item in Collection:
-app.post("/collections", async (req, res) => {
+app.post("/collections", isLoggedIn, async (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
     const item = req.body.item;
@@ -288,7 +306,8 @@ app.post("/register", async (req, res) => {
           if (err) throw err;
           console.log("--------> Created new User");
           console.log(result.insertId);
-          req.session.user_id = result.userId;
+          // req.session.user_id = result.userId;
+          req.session.user = result[0];
           req.flash("success", "Successfully registered user and logged in.");
           res.status(201).redirect("/");
           // .render("createUser", { user, text: "added to database..." });
@@ -297,7 +316,9 @@ app.post("/register", async (req, res) => {
     }); //end of connection.query()
   }); //end of db.getConnection()
 }); //end of app.post()
+/*************************************************************/
 /***** END CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
+/*************************************************************/
 
 // Route to GET and serve login page:
 app.get("/login", (req, res) => {
@@ -316,7 +337,9 @@ app.post("/login", async (req, res) => {
 
       if (validPassword) {
         console.log(result, result[0]);
-        req.session.user_id = result[0].userId;
+        // req.session.user_id = result[0].userId;
+        req.session.user = result[0];
+        console.log(req.session);
         req.flash("success", "Successfully Logged In.");
         res.redirect("/");
       } else {
@@ -328,18 +351,19 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-  req.session.user_id = null;
+  // req.session.user_id = null;
+  req.session.user = null;
   req.flash("success", "You have been successfully logged out.");
-  res.redirect("/login");
+  res.redirect("/");
 });
 
-app.get("/secret", (req, res) => {
-  if (!req.session.user_id) {
-    res.redirect("/login");
-  } else {
-    res.send("THIS IS SECRET YOU CANT SEE MEEEEEEEEEE!!!");
-  }
-});
+// app.get("/secret", (req, res) => {
+//   if (!req.session.user_id) {
+//     res.redirect("/login");
+//   } else {
+//     res.send("THIS IS SECRET YOU CANT SEE MEEEEEEEEEE!!!");
+//   }
+// });
 
 // 404 Middleware if no other route matches:
 app.use((req, res) => {

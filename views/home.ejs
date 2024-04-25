@@ -1,5 +1,14 @@
 <% layout('layouts/boilerplate') %>
 
+  <!-- TEST -->
+  <h1 class="text-center">
+    <% if (currentUser) { %>
+      <%= currentUser.userId%> Welcome <%= currentUser.user %>
+          <% } %>
+
+  </h1>
+  <!-- TEST -->
+
   <!--Begin banner carousel-->
   <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
