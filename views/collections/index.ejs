@@ -1,10 +1,12 @@
 <%- layout('layouts/boilerplate') %>
 
   <div class="table-responsive my-5 mx-3">
-    <h1 class="text-center">Collection</h1>
+    <h1 class="text-center">
+      <%= currentUser.user %>'s Collection
+    </h1>
     <table class="table table-striped table-hover align-middle caption-top">
-      <caption>Click on any row for more detail (Only DELETE button functionality works just pops ups modal
-        currently) Also don't know where files are being uploaded to so I can't find them, lol:
+      <caption>Click on any row for more detail (pops ups modal). Don't know where files are being uploaded to so I
+        can't find them and that edit function doesn't work, lol:
       </caption>
       <thead class="table-primary">
         <tr>

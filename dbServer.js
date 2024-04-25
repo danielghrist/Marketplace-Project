@@ -154,17 +154,21 @@ app.delete("/products/:id", isLoggedIn, async (req, res) => {
 app.get("/collections", isLoggedIn, async (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
-    const sqlQuery = "SELECT * FROM testItems";
+    const sqlQuery = "SELECT * FROM testItems WHERE User_ID = ?";
 
     // Trying to get data from DB:
-    await connection.query(sqlQuery, async (err, result) => {
-      if (err) throw err;
-      else {
-        results = result;
-        connection.release();
-        res.render("collections/index", results);
+    await connection.query(
+      sqlQuery,
+      [req.session.user.userId],
+      async (err, result) => {
+        if (err) throw err;
+        else {
+          results = result;
+          connection.release();
+          res.render("collections/index", results);
+        }
       }
-    }); //end of connection.query()
+    ); //end of connection.query()
   }); //end of db.getConnection()
 });
 
@@ -244,12 +248,19 @@ app.post("/collections", isLoggedIn, async (req, res) => {
     if (err) throw err;
     const item = req.body.item;
     console.log(item);
-    const sqlQuery = " INSERT INTO testItems VALUES(0, ?, ?, ?, ?, ?)";
+    const sqlQuery = " INSERT INTO testItems VALUES(0, ?, ?, ?, ?, ?, ?)";
 
     // Trying to get data from DB:
     await connection.query(
       sqlQuery,
-      [item.img, item.name, item.desc, item.purchDate, item.purchPrice],
+      [
+        item.img,
+        item.name,
+        item.desc,
+        item.purchDate,
+        item.purchPrice,
+        req.session.user.userId,
+      ],
       async (err, result) => {
         if (err) throw err;
         else {
