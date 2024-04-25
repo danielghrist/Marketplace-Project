@@ -341,20 +341,30 @@ app.post("/login", async (req, res) => {
     [username],
     async (err, result) => {
       if (err) throw err;
-      const validPassword = await bcrypt.compare(password, result[0].password);
-
-      if (validPassword) {
-        console.log(result, result[0]);
-        // req.session.user_id = result[0].userId;
-        req.session.user = result[0];
-        console.log(req.session);
-        req.flash("success", "Successfully Logged In.");
-        const redirectUrl = req.session.returnTo || "/";
-        delete req.session.returnTo;
-        res.redirect(redirectUrl);
-      } else {
+      console.log("result: ", result);
+      if (!result[0]) {
         req.flash("error", "Invalid Login Credentials, Please Try Again.");
         res.redirect("/login");
+      } else {
+        const validPassword = await bcrypt.compare(
+          password,
+          result[0].password
+        );
+
+        if (validPassword) {
+          console.log(result, result[0]);
+          // req.session.user_id = result[0].userId;
+          req.session.user = result[0];
+          console.log("req.sesssion: ", req.session);
+          req.flash("success", "Successfully Logged In.");
+          const redirectUrl = req.session.returnTo || "/";
+          delete req.session.returnTo;
+          res.redirect(redirectUrl);
+        } else {
+          console.log("req.sesssion: ", req.session);
+          req.flash("error", "Invalid Login Credentials, Please Try Again.");
+          res.redirect("/login");
+        }
       }
     }
   );
