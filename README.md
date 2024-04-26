@@ -32,7 +32,8 @@ We are attempting to create the feel of a mash up of several different influence
   <li>Currently the Express.JS server is listening on port 3000 and it is not being redirected properly through nginx.</li>
   <li><s>The navbar isn't sizing properly currently</s>. (FIXED)</li>
   <li>The Modals (popups) on the collection view site are not able to be closed on smaller screen like iPhone.</li>
-  <li>When editing the collection the Date Purchased and the Image File are not pre-populating.</li>
-  <li>The BootStrap Accordian on the shop page is broken since I disabled the template CSS file as it was causing more trouble than it was worth.</li>
+  <li>When editing the collection the <s>Date Purchased and the</s>(FIXED) Image File are not pre-populating.</li>
+  <li><s>The BootStrap Accordian on the shop page is broken since I disabled the template CSS file as it was causing more trouble than it was worth.</s>(FIXED, DELETED)</li>
   <li>There is currently no search functionality.</li>
+  <li>There is currently no shopping cart functionality.</li>
 </ul>
