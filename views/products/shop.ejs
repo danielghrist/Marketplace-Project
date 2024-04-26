@@ -106,36 +106,44 @@
               <img src="assets/img/<%= product.Product_Img_Name %>" class="card-img-top"
                 alt="<%= product.Product_Img_Name %>">
               <div class="card-body">
-                <span class="card-title"><a href="/products/<%= product.Product_ID%>" class="h3 text-decoration-none">
+                <h5 class="card-title"><a href="/products/<%= product.Product_ID%>" class="text-decoration-none">
                     <%= product.Product_Name %>
                   </a>
-                </span>
+                </h5>
                 <p class="card-text">
-                  Category: <%= product.Product_Category %>
+                  <%= product.Product_Description %>
                 </p>
-                <p class="card-text">
-                  Condition: <%= product.Product_Condition %>
-                </p>
-                <ul class="list-unstyled d-flex justify-content-center align-content-end mb-1">
-                  <li>
-                    <i class="text-warning fa fa-star"></i>
-                    <i class="text-warning fa fa-star"></i>
-                    <i class="text-warning fa fa-star"></i>
-                    <i class="text-muted fa fa-star"></i>
-                    <i class="text-muted fa fa-star"></i>
-                  </li>
-                </ul>
-                <p class="text-center mb-0">$<%= product.Product_Price.toFixed(2) %>
-                </p>
-                <!-- <span class="d-flex justify-content-center mt-1 mb-0">
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Category: <%= product.Product_Category %>
+                </li>
+                <li class="list-group-item">Condition: <%= product.Product_Condition %>
+                </li>
+                <li class="list-group-item">A third item</li>
+              </ul>
+              <!-- <p class="card-text">
+                Category: <%= product.Product_Category %>
+              </p>
+              <p class="card-text">
+                Condition: <%= product.Product_Condition %>
+              </p> -->
+              <ul class="list-unstyled d-flex justify-content-center align-content-end mb-1">
+                <li>
+                  <i class="text-warning fa fa-star"></i>
+                  <i class="text-warning fa fa-star"></i>
+                  <i class="text-warning fa fa-star"></i>
+                  <i class="text-muted fa fa-star"></i>
+                  <i class="text-muted fa fa-star"></i>
+                </li>
+              </ul>
+              <p class="text-center mb-0">$<%= product.Product_Price.toFixed(2) %>
+              </p>
+              <!-- <span class="d-flex justify-content-center mt-1 mb-0">
                   <a href="/delete/<%=product.Product_ID%>" class="btn btn-danger">DELETE</a>
                 </span> -->
-              </div>
+              <!-- </div> -->
               <div class="card-footer">
-                <form class="d-flex justify-content-center mt-1 mb-0"
-                  action="/products/<%=product.Product_ID%>?_method=DELETE" method="POST">
-                  <button class="btn btn-sm btn-danger">DELETE</button>
-                  <!-- <a href="" class="btn btn-sm btn-danger">DELETE</a> -->
+                PLACEHOLDER
                 </form>
               </div>
             </div>
