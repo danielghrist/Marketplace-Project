@@ -1,0 +1,82 @@
+<%- layout('layouts/boilerplate') %>
+
+  <div class="container text-center my-5">
+    <h1><strong>Edit Item For Sale: <%=Product_Name%></strong></h1>
+  </div>
+  <div class="container g-5 my-4">
+    <form action="/selling/<%=Product_ID%>?_method=PUT" method="post" class="needs-validation g-3" novalidate>
+      <div class="row mb-3">
+        <label for="item-name" class="col-sm-2 col-form-label">Item Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="item[name]" id="item-name"
+            placeholder="Please enter your item name." value="<%=Product_Name%>" required>
+          <!-- <div class="valid-feedback">Looks good!</div> -->
+          <div class="invalid-feedback">Invalid Item Name.</div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="item-desc" class="col-sm-2 col-form-label">Item Description</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" name="item[desc]" id="item-desc" cols="50" rows="5"
+            placeholder="Please enter an item description." required><%=Product_Description%></textarea>
+          <div class="invalid-feedback">Invalid Item Description.</div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label for="purch-price" class="col-sm-2 col-form-label">Selling Price</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="item[sellPrice]" id="sell-price"
+            placeholder="Please enter the item's selling price." value="<%=Product_Price%>" required>
+          <div class="invalid-feedback">Invalid Item Sell Price.
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label for="category" class="col-sm-2 col-form-label">Category</label>
+        <div class="col-sm-10">
+          <select class="form-select" name="item[category]" id="category">
+            <option selected>Choose Item Category</option>
+            <option value="Antiques">Anitques</option>
+            <option value="Comics">Comics</option>
+            <option value="Cards">Cards</option>
+            <option value="Video Games">Video Games</option>
+            <option value="Other">Other</option>
+          </select>
+          <div class="invalid-feedback">Invalid Item Sell Price.
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label for="item-condition" class="col-sm-2 col-form-label">Item Condition</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="item[condition]" id="item-condition"
+            placeholder="Please enter your item's condition." value="<%=Product_Condition%>" required>
+          <!-- <div class="valid-feedback">Looks good!</div> -->
+          <div class="invalid-feedback">Invalid Item Condition.</div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label for="item-img" class="col-sm-2 col-form-label">Image Upload</label>
+        <div class="col-sm-10">
+          <input type="file" class="form-control" name="item[img]" id="item-img" aria-label="file example"
+            value="<%=Product_Img_Name%>" file="<%=Product_Img_Name%>" required>
+          <div class="invalid-feedback">No file chosen.
+          </div>
+        </div>
+      </div>
+      <div class="text-center" style="color: red; font-weight: bold;">Image File and category won't pre-pop with the
+        respective current values.
+      </div>
+      <span class="d-flex justify-content-evenly my-5">
+        <a href="/selling" class="btn btn-primary px-4">Back</a>
+        <button type="submit" class="btn btn-success">Edit Item</button>
+      </span>
+    </form>
+  </div>
+
+  <!-- JS validation Script: -->
+  <script src="/assets/js/event-listeners.js"></script>
