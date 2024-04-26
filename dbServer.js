@@ -147,6 +147,149 @@ app.delete("/products/:id", isLoggedIn, async (req, res) => {
 /***** END SHOP/PRODUCTS ROUTES: *****/
 /*************************************/
 
+/*********************************/
+/***** BEGIN SELLING ROUTES: *****/
+/*********************************/
+// Route to GET and serve Selling/index page:
+app.get("/selling", isLoggedIn, async (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const sqlQuery = "SELECT * FROM testProducts WHERE User_ID = ?";
+
+    // Trying to get data from DB:
+    await connection.query(
+      sqlQuery,
+      [req.session.user.userId],
+      async (err, result) => {
+        if (err) throw err;
+        else {
+          results = result;
+          connection.release();
+          res.render("selling/index", results);
+        }
+      }
+    ); //end of connection.query()
+  }); //end of db.getConnection()
+});
+
+// Route to GET and serve single item show page:
+// app.get("/products/:id", async (req, res) => {
+//   // TODO: ADD FUNCTIONALITY TO THIS ROUTE.
+//   res.render("products/show");
+// });
+
+// Route to DELETE product from Selling page and DB:
+app.delete("/selling/:id", isLoggedIn, async (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const { id } = req.params;
+    const sqlQuery = " DELETE FROM testProducts WHERE Product_ID = ?";
+
+    // Trying to get data from DB:
+    await connection.query(sqlQuery, [id], async (err, result) => {
+      if (err) throw err;
+      else {
+        connection.release();
+        req.flash("success", "Successfully deleted product.");
+        res.redirect("/selling");
+      }
+    }); //end of connection.query()
+  }); //end of db.getConnection()
+});
+
+// Route to go to Update/Edit Selling page with values pre-filled:
+app.get("/selling/:id/edit", isLoggedIn, async (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const { id } = req.params;
+    const sqlQuery = "SELECT * FROM testProducts WHERE Product_ID = ?";
+
+    // Trying to get data from DB:
+    await connection.query(sqlQuery, [id], async (err, result) => {
+      if (err) throw err;
+      else {
+        results = result;
+        connection.release();
+        res.render("selling/edit", results[0]);
+      }
+    }); //end of connection.query()
+  }); //end of db.getConnection()
+});
+
+// Route to UPDATE/PUT or change/edit data for the current Selling item:
+app.put("/selling/:id", isLoggedIn, async (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const item = req.body.item;
+    const { id } = req.params;
+    console.log(item);
+    const sqlQuery = `UPDATE testProducts SET Product_Category = ?, 
+    Product_Img_Name = ?, Product_Name = ?, Product_Description = ?, Product_Condition = ?, Product_Price = ? WHERE Product_ID = ?`;
+
+    // Trying to get data from DB:
+    await connection.query(
+      sqlQuery,
+      [
+        item.category,
+        item.img,
+        item.name,
+        item.desc,
+        item.condition,
+        item.sellPrice,
+        id,
+      ],
+      async (err, result) => {
+        if (err) throw err;
+        else {
+          connection.release();
+          req.flash("success", `Successfully edited ${item.name}.`);
+          res.redirect("/selling");
+        }
+      }
+    ); //end of connection.query()
+  }); //end of db.getConnection()
+});
+
+// Route to go to new form to create new Selling item:
+app.get("/selling/new", isLoggedIn, (req, res) => {
+  res.render("selling/new");
+});
+
+// Route to Create new item in Collection:
+app.post("/selling", isLoggedIn, async (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const item = req.body.item;
+    console.log(item);
+    const sqlQuery = " INSERT INTO testProducts VALUES(0, ?, ?, ?, ?, ?, ?, ?)";
+
+    // Trying to get data from DB:
+    await connection.query(
+      sqlQuery,
+      [
+        item.category,
+        item.img,
+        item.name,
+        item.desc,
+        item.condition,
+        item.sellPrice,
+        req.session.user.userId,
+      ],
+      async (err, result) => {
+        if (err) throw err;
+        else {
+          connection.release();
+          req.flash("success", "Successfully created a new item for sale.");
+          res.redirect("/selling");
+        }
+      }
+    ); //end of connection.query()
+  }); //end of db.getConnection()
+});
+/*******************************/
+/***** END SELLING ROUTES: *****/
+/*******************************/
+
 /*************************************/
 /***** BEGIN COLLECTIONS ROUTES: *****/
 /*************************************/
@@ -191,7 +334,7 @@ app.delete("/collections/:id", isLoggedIn, async (req, res) => {
   }); //end of db.getConnection()
 });
 
-// Route to go to Update/Edit Collection screen with values pre-filled:
+// Route to go to Update/Edit Collection page with values pre-filled:
 app.get("/collections/:id/edit", isLoggedIn, async (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
