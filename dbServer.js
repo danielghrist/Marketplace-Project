@@ -204,7 +204,6 @@ app.get("/collections/:id/edit", isLoggedIn, async (req, res) => {
       else {
         results = result;
         connection.release();
-        // req.flash("success", "Successfully edited collection item.");
         res.render("collections/edit", results[0]);
       }
     }); //end of connection.query()
@@ -272,10 +271,13 @@ app.post("/collections", isLoggedIn, async (req, res) => {
     ); //end of connection.query()
   }); //end of db.getConnection()
 });
+/***********************************/
 /***** END COLLECTIONS ROUTES: *****/
+/***********************************/
 
 /***** ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
 /***** BEGIN CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
+/***************************************************************/
 // Route to GET and serve register page:
 app.get("/register", (req, res) => {
   res.render("register");
@@ -335,9 +337,9 @@ app.post("/register", async (req, res) => {
     }); //end of connection.query()
   }); //end of db.getConnection()
 }); //end of app.post()
-/*************************************************************/
-/***** END CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
-/*************************************************************/
+/*************************************/
+/***** END CODE FOR REGISTRATION *****/
+/*************************************/
 
 // Route to GET and serve login page:
 app.get("/login", (req, res) => {
