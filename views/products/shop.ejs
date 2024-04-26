@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
 
   <!-- Modal -->
-  <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog"
+  <!-- <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="w-100 pt-1 mb-5 text-right">
@@ -16,7 +16,7 @@
         </div>
       </form>
     </div>
-  </div>
+  </div> -->
 
 
   <!-- Start Content -->
@@ -25,41 +25,67 @@
   <div class="container py-5">
     <div class="row">
 
-      <div class="col-lg-3">
-        <h1 class="h2 pb-4">Categories</h1>
-
-        <ul class="list-unstyled templatemo-accordion">
-          <li class="pb-3">
-            <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+      <!-- <div class="accordion col-lg-3" id="accordionProducts">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+              aria-expanded="true" aria-controls="collapseOne">
               Antiques
-              <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
-            </a>
-            <ul class="collapse show list-unstyled pl-3">
-              <li><a class="text-decoration-none" href="#">Home Decor</a></li>
-              <li><a class="text-decoration-none" href="#"></a>Instruments</li>
-              <li><a class="text-decoration-none" href="#"></a>Jewlery</li>
-            </ul>
-          </li>
-          <li class="pb-3">
-            <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-              Video Games
-              <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-            </a>
-            <ul id="collapseTwo" class="collapse list-unstyled pl-3">
-              <li><a class="text-decoration-none" href="#">Nintendo</a></li>
-              <li><a class="text-decoration-none" href="#">XBOX/PlayStation</a></li>
-            </ul>
-          </li>
-          <li class="pb-3">
-            <a class="justify-content-between h3 text-decoration-none" href="#">
-              Clothing
-              <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-            </a>
-          </li>
-        </ul>
-      </div>
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+            data-bs-parent="#accordionProducts">
+            <div class="accordion-body">
+              <ul class="list-unstyled">
+                <li><a class="text-decoration-none" href="#">Home Decor</a></li>
+                <li><a class="text-decoration-none" href="#">Instruments</a></li>
+                <li><a class="text-decoration-none" href="#">Jewlery</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
 
-      <div class="col-lg-9">
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Video Games
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+            data-bs-parent="#accordionProducts">
+            <div class="accordion-body">
+              <ul id="collapseTwo" class="list-unstyled">
+                <li><a class="text-decoration-none" href="#">Nintendo</a></li>
+                <li><a class="text-decoration-none" href="#">Xbox</a></li>
+                <li><a class="text-decoration-none" href="#">Playstation</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Clothing
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+            data-bs-parent="#accordionProducts">
+            <div class="accordion-body">
+              <ul class="list-unstyled">
+                <li><a class="text-decoration-none" href="#">Clothing</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+
+      <div class="d-flex justify-content-center">
         <div class="col-md-6">
           <div class="d-flex">
             <select class="form-control">
