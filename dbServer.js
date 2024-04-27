@@ -11,6 +11,7 @@ const bcrypt = require("bcrypt");
 const methodOverride = require("method-override");
 const session = require("express-session");
 const flash = require("connect-flash");
+const fileUpload = require("express-fileupload");
 
 // Ovveried POST request with "?_method=DELETE" to be able to send PUT/PATCH/DELETE requests using:
 // Middleware
@@ -54,6 +55,8 @@ const isLoggedIn = (req, res, next) => {
 // Middle-ware module to allow messages to be sent through redirects so we can have alerts:
 app.use(flash());
 
+app.use(fileUpload());
+
 // Middle-ware which makes variables available to all templates and routes. Sets flash alerts and session user:
 app.use((req, res, next) => {
   // res.locals.userId = req.session.user_id;
@@ -96,6 +99,87 @@ console.log(path.join(__dirname, "index.html"));
 app.get("/", (req, res) => {
   res.render("home");
   // res.sendFile(path.join(__dirname, "index.html"));
+});
+
+// WORKING, BUT I CAN'T GET IMAGE NAME TO SEND TO OTHER ROUTES
+// Route to upload files using express-fileupload:
+// app.post("/upload", isLoggedIn, (req, res) => {
+//   if (!req.files) {
+//     return res.status(400).send("No files were uploaded");
+//   }
+//   const file = req.files.uploadImg;
+//   const path = __dirname + "/public/assets/img/" + file.name;
+
+//   file.mv(path, (err) => {
+//     if (err) {
+//       return res.status(500).send(err);
+//     }
+
+//     req.flash("success", `Successfully uploaded image ${file.name}.`);
+//     res.redirect("/collections/new");
+//   });
+// });
+
+// Route to upload files using express-fileupload for Collections Edit page:
+app.post("/uploadCollections/:id", isLoggedIn, (req, res) => {
+  if (!req.files) {
+    return res.status(400).send("No files were uploaded");
+  }
+  const { id } = req.params;
+  console.log("id before: ", id);
+  const file = req.files.uploadImg;
+  const path = __dirname + "/public/assets/img/" + file.name;
+
+  file.mv(path, (err) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+
+    console.log("id after: ", id);
+    const sqlQuery = `UPDATE testItems SET Item_Img_Name = ? WHERE Item_ID = ?`;
+
+    // Trying to get data from DB:
+    db.query(sqlQuery, [file.name, id], async (err, result) => {
+      if (err) throw err;
+      else {
+        // connection.release();
+        console.log(result);
+        req.flash("success", `Successfully edited image "${file.name}".`);
+        res.redirect(`/collections/${id}/edit`);
+      }
+    });
+  });
+});
+
+// Route to upload files using express-fileupload for Selling items Edit page:
+app.post("/uploadSelling/:id", isLoggedIn, (req, res) => {
+  if (!req.files) {
+    return res.status(400).send("No files were uploaded");
+  }
+  const { id } = req.params;
+  console.log("id before: ", id);
+  const file = req.files.uploadImg;
+  const path = __dirname + "/public/assets/img/" + file.name;
+
+  file.mv(path, (err) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+
+    console.log("id after: ", id);
+    const sqlQuery = `UPDATE testProducts SET Product_Img_Name = ? WHERE Product_ID = ?`;
+
+    // Trying to get data from DB:
+    db.query(sqlQuery, [file.name, id], async (err, result) => {
+      if (err) throw err;
+      else {
+        // connection.release();
+        console.log(result);
+        req.flash("success", `Successfully edited image "${file.name}".`);
+        res.redirect(`/selling/${id}/edit`);
+      }
+    });
+  });
 });
 
 /***************************************/
@@ -223,15 +307,14 @@ app.put("/selling/:id", isLoggedIn, async (req, res) => {
     const item = req.body.item;
     const { id } = req.params;
     console.log(item);
-    const sqlQuery = `UPDATE testProducts SET Product_Category = ?, 
-    Product_Img_Name = ?, Product_Name = ?, Product_Description = ?, Product_Condition = ?, Product_Price = ? WHERE Product_ID = ?`;
+    const sqlQuery = `UPDATE testProducts SET Product_Category = ?, Product_Name = ?, Product_Description = ?, Product_Condition = ?, Product_Price = ? WHERE Product_ID = ?`;
 
     // Trying to get data from DB:
     await connection.query(
       sqlQuery,
       [
         item.category,
-        item.img,
+        // item.img,
         item.name,
         item.desc,
         item.condition,
@@ -242,7 +325,7 @@ app.put("/selling/:id", isLoggedIn, async (req, res) => {
         if (err) throw err;
         else {
           connection.release();
-          req.flash("success", `Successfully edited ${item.name}.`);
+          req.flash("success", `Successfully edited "${item.name}".`);
           res.redirect("/selling");
         }
       }
@@ -255,7 +338,7 @@ app.get("/selling/new", isLoggedIn, (req, res) => {
   res.render("selling/new");
 });
 
-// Route to Create new item in Collection:
+// Route to Create new item in Selling:
 app.post("/selling", isLoggedIn, async (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
@@ -357,21 +440,21 @@ app.get("/collections/:id/edit", isLoggedIn, async (req, res) => {
 app.put("/collections/:id", isLoggedIn, async (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
+
     const item = req.body.item;
     const { id } = req.params;
     console.log(item);
-    const sqlQuery = `UPDATE testItems SET Item_Img_Name = ?, 
-    Item_Name = ?, Item_Description = ?, Item_Purch_Date = ?, Item_Purch_Price = ? WHERE Item_ID = ?`;
+    const sqlQuery = `UPDATE testItems SET Item_Name = ?, Item_Description = ?, Item_Purch_Date = ?, Item_Purch_Price = ? WHERE Item_ID = ?`;
 
     // Trying to get data from DB:
     await connection.query(
       sqlQuery,
-      [item.img, item.name, item.desc, item.purchDate, item.purchPrice, id],
+      [item.name, item.desc, item.purchDate, item.purchPrice, id],
       async (err, result) => {
         if (err) throw err;
         else {
           connection.release();
-          req.flash("success", `Successfully edited ${item.name}.`);
+          req.flash("success", `Successfully edited "${item.name}".`);
           res.redirect("/collections");
         }
       }
@@ -389,8 +472,8 @@ app.post("/collections", isLoggedIn, async (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
     const item = req.body.item;
-    console.log(item);
-    const sqlQuery = " INSERT INTO testItems VALUES(0, ?, ?, ?, ?, ?, ?)";
+    console.log("item object from adding new item: ", item);
+    const sqlQuery = "INSERT INTO testItems VALUES(0, ?, ?, ?, ?, ?, ?)";
 
     // Trying to get data from DB:
     await connection.query(
@@ -407,7 +490,7 @@ app.post("/collections", isLoggedIn, async (req, res) => {
         if (err) throw err;
         else {
           connection.release();
-          req.flash("success", "Successfully created a new collection item.");
+          req.flash("success", `Successfully created item "${item.name}".`);
           res.redirect("/collections");
         }
       }
