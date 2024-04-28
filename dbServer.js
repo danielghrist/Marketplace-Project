@@ -344,12 +344,14 @@ app.post("/selling", isLoggedIn, async (req, res) => {
     if (err) throw err;
     const item = req.body.item;
     console.log(item);
-    const sqlQuery = " INSERT INTO testProducts VALUES(0, ?, ?, ?, ?, ?, ?, ?)";
+    const sqlQuery =
+      " INSERT INTO testProducts VALUES(0, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // Trying to get data from DB:
     await connection.query(
       sqlQuery,
       [
+        req.session.user.user,
         item.category,
         item.img,
         item.name,
