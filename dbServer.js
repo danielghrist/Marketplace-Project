@@ -545,7 +545,6 @@ app.post("/register", async (req, res) => {
           console.log("--------> Created new User");
           console.log("result.insertID: ", result.insertId);
           console.log("reslt: ", result);
-          // req.session.user_id = result.userId;
           db.query(
             "SELECT * FROM userTable WHERE user = ?",
             [user],
@@ -555,7 +554,7 @@ app.post("/register", async (req, res) => {
               console.log("Session: ", req.session.user);
               req.flash(
                 "success",
-                "Successfully registered user and logged in."
+                `Successfully registered user ${req.session.user.user} and logged in.`
               );
               return res.status(201).redirect("/");
             }
@@ -597,7 +596,10 @@ app.post("/login", async (req, res) => {
           // req.session.user_id = result[0].userId;
           req.session.user = result[0];
           console.log("req.sesssion: ", req.session);
-          req.flash("success", "Successfully Logged In.");
+          req.flash(
+            "success",
+            `${req.session.user.user} Successfully Logged In.`
+          );
           const redirectUrl = req.session.returnTo || "/";
           delete req.session.returnTo;
           res.redirect(redirectUrl);
