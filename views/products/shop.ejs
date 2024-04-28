@@ -144,11 +144,16 @@
               <p class="text-center mb-0">$<%= product.Product_Price.toFixed(2) %>
               </p>
               <!-- <span class="d-flex justify-content-center mt-1 mb-0">
-                  <a href="/delete/<%=product.Product_ID%>" class="btn btn-danger">DELETE</a>
-                </span> -->
+                <a href="/delete/<%=product.Product_ID%>" class="btn btn-sm btn-warning text-muted">Add to Cart</a>
+              </span> -->
               <!-- </div> -->
               <div class="card-footer">
-                PLACEHOLDER
+                <span class="d-flex justify-content-center mt-1 mb-0">
+                  <form action="/shoppingCart/<%=product.Product_ID%>" method="post">
+                    <!-- <a href="" class="btn btn-sm btn-warning text-muted"><strong>Add to Cart</strong></a> -->
+                    <button type="submit" class="btn btn-sm btn-warning text-muted"><strong>Add to
+                        Cart</strong></button>
+                </span>
                 </form>
               </div>
             </div>

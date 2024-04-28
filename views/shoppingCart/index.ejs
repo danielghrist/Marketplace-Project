@@ -1,0 +1,74 @@
+<% layout('layouts/boilerplate') %>
+
+  <!-- Start Content -->
+  <div class="container py-5">
+    <div class="row">
+      <h1 class="text-center">
+        <%= currentUser.user %>'s Shopping Cart
+      </h1>
+
+      <!-- Begin Dynamic Adding of Products Data from DB -->
+      <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 row-cols-xxl-4 g-4 mb-4">
+        <% for(let product of results) { %>
+          <div class="col">
+            <div class="card h-100">
+              <img src="/assets/img/<%= product.Product_Img_Name %>" class="card-img-top"
+                alt="<%= product.Product_Img_Name %>">
+              <div class="card-body">
+                <h5 class="card-title"><a href="/products/<%= product.Product_ID%>" class="text-decoration-none">
+                    <%= product.Product_Name %>
+                  </a>
+                </h5>
+                <p class="card-text">
+                  <%= product.Product_Description %>
+                </p>
+              </div>
+              <hr class="dropdown-divider">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Category: <%= product.Product_Category %>
+                </li>
+                <li class="list-group-item">Condition: <%= product.Product_Condition %>
+                </li>
+                <li class="list-group-item">Seller:
+                  <strong>
+                    <%= product.Product_Seller %>
+                  </strong>
+                </li>
+              </ul>
+              <!-- <p class="card-text">
+                Category: <%= product.Product_Category %>
+              </p>
+              <p class="card-text">
+                Condition: <%= product.Product_Condition %>
+              </p> -->
+              <ul class="list-unstyled d-flex justify-content-center align-content-end mb-1">
+                <li>
+                  <i class="text-warning fa fa-star"></i>
+                  <i class="text-warning fa fa-star"></i>
+                  <i class="text-warning fa fa-star"></i>
+                  <i class="text-muted fa fa-star"></i>
+                  <i class="text-muted fa fa-star"></i>
+                </li>
+              </ul>
+              <p class="text-center mb-0">$<%= product.Product_Price.toFixed(2) %>
+              </p>
+              <!-- <span class="d-flex justify-content-center mt-1 mb-0">
+                  <a href="/delete/<%=product.Product_ID%>" class="btn btn-danger">DELETE</a>
+                </span> -->
+              <!-- </div> -->
+              <div class="card-footer d-flex justify-content-center">
+                <span>
+                  <form class="" action="/shoppingCart/<%=product.Product_ID%>?_method=DELETE" method="POST">
+                    <button class="btn btn-sm btn-danger">Remove From Cart</button>
+                  </form>
+                </span>
+              </div>
+            </div>
+          </div>
+          <%} %>
+      </div>
+      <!-- End Dynamic Adding of Products Data from DB -->
+
+    </div>
+  </div>
+  <!-- End Content -->

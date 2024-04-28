@@ -12,6 +12,7 @@ const methodOverride = require("method-override");
 const session = require("express-session");
 const flash = require("connect-flash");
 const fileUpload = require("express-fileupload");
+const { connect } = require("http2");
 
 // Ovveried POST request with "?_method=DELETE" to be able to send PUT/PATCH/DELETE requests using:
 // Middleware
@@ -375,6 +376,87 @@ app.post("/selling", isLoggedIn, async (req, res) => {
 /***** END SELLING ROUTES: *****/
 /*******************************/
 
+/***************************************/
+/***** BEGIN SHOPPING CART ROUTES: *****/
+/***************************************/
+// Route to GET and serve Shopping Cart/index page:
+app.get("/shoppingCart", isLoggedIn, async (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const sqlQuery =
+      "SELECT * FROM shoppingTable INNER JOIN testProducts ON testProducts.Product_ID=shoppingTable.Item_ID WHERE shoppingTable.User_ID = ?";
+
+    // Trying to get data from DB:
+    await connection.query(
+      sqlQuery,
+      [req.session.user.userId],
+      async (err, result) => {
+        if (err) throw err;
+        else {
+          results = result;
+          connection.release();
+          res.render("shoppingCart/index", results);
+        }
+      }
+    ); //end of connection.query()
+  }); //end of db.getConnection()
+});
+
+// Route to DELETE product from Shopping Cart and DB:
+app.delete("/shoppingCart/:id", isLoggedIn, async (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const { id } = req.params;
+    const sqlQuery = " DELETE FROM shoppingTable WHERE Item_ID = ?";
+
+    // Trying to get data from DB:
+    await connection.query(sqlQuery, [id], async (err, result) => {
+      if (err) throw err;
+      else {
+        connection.release();
+        req.flash("success", "Successfully removed item from shopping cart.");
+        res.redirect("/shoppingCart");
+      }
+    }); //end of connection.query()
+  }); //end of db.getConnection()
+});
+
+// Route to add new item to Shopping Cart:
+app.post("/shoppingCart/:id", isLoggedIn, async (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const { id } = req.params;
+    const sqlSearch = "SELECT * FROM shoppingTable WHERE Item_ID = ?";
+    const sqlInsert = "INSERT INTO shoppingTable VALUES (0, ?, ?)";
+
+    // Trying to get data from DB and test if item already exists in cart:
+    await connection.query(sqlSearch, [id], async (err, result) => {
+      if (err) throw err;
+
+      if (result.length != 0) {
+        connection.release();
+        req.flash("error", "You have already added this item to your cart.");
+        res.redirect("/products");
+      } else {
+        await connection.query(
+          sqlInsert,
+          [id, req.session.user.userId],
+          async (err, result) => {
+            if (err) throw err;
+            console.log("SHOPPING CART RESULTS", result);
+            connection.release();
+            req.flash("success", "Successfully Added item to cart.");
+            res.redirect("/products");
+          }
+        );
+      }
+    }); //end of connection.query()
+  }); //end of db.getConnection()
+});
+/*************************************/
+/***** END SHOPPING CART ROUTES: *****/
+/*************************************/
+
 /*************************************/
 /***** BEGIN COLLECTIONS ROUTES: *****/
 /*************************************/
@@ -504,8 +586,9 @@ app.post("/collections", isLoggedIn, async (req, res) => {
 /***********************************/
 
 /***** ISSUE IS WITH THE PORT FORWARDING BETWEEN NGINX/EXPRESS *****/
-/***** BEGIN CODE TO BE ABLE TO ADD ROUTE FOR REGISTRATION *****/
-/***************************************************************/
+/**************************************************/
+/***** BEGIN CODE FOR ROUTES FOR REGISTRATION *****/
+/**************************************************/
 // Route to GET and serve register page:
 app.get("/register", (req, res) => {
   res.render("register");
@@ -564,9 +647,9 @@ app.post("/register", async (req, res) => {
     }); //end of connection.query()
   }); //end of db.getConnection()
 }); //end of app.post()
-/*************************************/
-/***** END CODE FOR REGISTRATION *****/
-/*************************************/
+/********************************************/
+/***** END CODE FOR REGISTRATION ROUTES *****/
+/********************************************/
 
 // Route to GET and serve login page:
 app.get("/login", (req, res) => {
