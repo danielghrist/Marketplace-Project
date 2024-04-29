@@ -154,12 +154,7 @@
   justify-content: center;
 }
 
-.card img {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.card img {
+.card-img {
   max-width: 100%;
   max-height: 100%;
 }
@@ -169,6 +164,10 @@
   box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
   border: none;
   border-radius: 10px;
+}
+
+.img-cover {
+  object-fit: cover;
 }
 /* End Cards CSS */
 
