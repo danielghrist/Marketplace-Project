@@ -1,0 +1,40 @@
+<%- layout('layouts/boilerplate') %>
+
+  <div class="table-responsive my-5 mx-3">
+    <h1 class="text-center">
+      All Users
+    </h1>
+    <table class="table table-striped table-hover align-middle caption-top">
+      <caption>Admin Information:
+      </caption>
+      <thead class="table-primary">
+        <tr>
+          <th scope="col">User ID#</th>
+          <th scope="col">User Name</th>
+          <th scope="col" class="text-center">User Hashed Password</th>
+          <th scope="col">Edit User</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <% for ( let user of results ) {%>
+          <tr class="">
+            <th scope="row">
+              <%= user.userId %>
+            </th>
+            <td>
+              <%= user.user %>
+            </td>
+            <td>
+              <%= user.password %>
+            </td>
+            <td>
+              <a href="#" class="btn btn-sm btn-danger">DELETE</a>
+            </td>
+          </tr>
+          <% }%>
+
+
+      </tbody>
+    </table>
+  </div>

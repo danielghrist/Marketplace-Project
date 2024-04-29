@@ -53,6 +53,16 @@ const isLoggedIn = (req, res, next) => {
   next();
 };
 
+// Middle-ware function to check if User as admin priviledges:
+const isAdmin = (req, res, next) => {
+  if (req.session.user.user !== "danny") {
+    // req.session.returnTo = req.originalUrl;
+    req.flash("error", "You do not have acccess to view this page.");
+    return res.redirect("/");
+  }
+  next();
+};
+
 // Middle-ware module to allow messages to be sent through redirects so we can have alerts:
 app.use(flash());
 
@@ -703,13 +713,19 @@ app.post("/logout", (req, res) => {
   res.redirect("/");
 });
 
-// app.get("/secret", (req, res) => {
-//   if (!req.session.user_id) {
-//     res.redirect("/login");
-//   } else {
-//     res.send("THIS IS SECRET YOU CANT SEE MEEEEEEEEEE!!!");
-//   }
-// });
+app.get("/admin", isLoggedIn, isAdmin, (req, res) => {
+  db.query("SELECT * FROM userTable", async (err, result) => {
+    if (err) throw err;
+    // console.log("result: ", result);
+    if (!result) {
+      console.log("NO USERS!!!!");
+    } else {
+      results = result;
+      // req.flash("error", "Invalid Login Credentials, Please Try Again.");
+      res.render("admin", results);
+    }
+  });
+});
 
 // 404 Middleware if no other route matches:
 app.use((req, res) => {

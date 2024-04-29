@@ -55,6 +55,29 @@
               <li><a class="dropdown-item" href="/collections">View Collection</a></li>
             </ul>
           </li>
+
+          <% if (!currentUser) { %>
+            <% } else { %>
+              <% if (currentUser.user==='danny' ) { %>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Admin
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                    <li><a class="dropdown-item" href="/admin">View Users</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <!-- <li><a class="dropdown-item" href="/collections">View Collection</a></li> -->
+                  </ul>
+                </li>
+
+                <% } else { %>
+                  <% } %>
+                    <% } %>
+
+
         </ul>
       </div>
       <div class="container-fluid">
