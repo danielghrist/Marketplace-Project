@@ -33,7 +33,8 @@ We are attempting to create the feel of a mash up of several different influence
   <li><s>The navbar isn't sizing properly currently</s>. (FIXED)</li>
   <li>The Modals (popups) on the collection view site are not able to be closed on smaller screen like iPhone.</li>
   <li>When editing the collection the <s>Date Purchased and the</s>(FIXED) Image File are not pre-populating.</li>
+  <li>When adding items image uploads are not working.</li>
   <li><s>The BootStrap Accordian on the shop page is broken since I disabled the template CSS file as it was causing more trouble than it was worth.</s>(FIXED, DELETED)</li>
   <li>There is currently no search functionality.</li>
-  <li>There is currently no shopping cart functionality.</li>
+  <li><s>There is currently no shopping cart functionality.</s>(ADDED, BUT LIMITED)</li>
 </ul>
