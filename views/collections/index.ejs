@@ -40,7 +40,7 @@
               <%= res.Item_Purch_Date.toDateString() %>
             </td>
             <td>
-              $<%= res.Item_Purch_Price.toFixed(2) %>
+              $<%= res.Item_Purch_Price.toLocaleString('en', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>
             </td>
           </tr>
           <% }%>

@@ -77,7 +77,8 @@
       <div class="row mb-3">
         <label for="purch-date" class="col-sm-2 col-form-label">Purchase Date</label>
         <div class="col-sm-10 col-md-2">
-          <input type="date" class="form-control" name="item[purchDate]" id="purch-date" required>
+          <input type="date" class="form-control" name="item[purchDate]" id="purch-date" min="1900-01-01"
+            max="<%= new Date().toLocaleDateString('fr-ca') %>" required>
           <div class="invalid-feedback">Invalid Item Purchase Date.</div>
         </div>
       </div>

@@ -77,7 +77,8 @@
                   <% const newFormattedDate=`${year}-${month}-${day}`; %>
 
                     <input type="date" class="form-control" name="item[purchDate]" id="purch-date"
-                      value="<%=newFormattedDate%>" required>
+                      value="<%=newFormattedDate%>" min="1900-01-01" max="<%= new Date().toLocaleDateString('fr-ca') %>"
+                      required>
                     <div class="invalid-feedback">Invalid Purchase Date.
                     </div>
         </div>

@@ -141,7 +141,8 @@
                   <i class="text-muted fa fa-star"></i>
                 </li>
               </ul>
-              <p class="text-center mb-0">$<%= product.Product_Price.toFixed(2) %>
+              <p class="text-center mb-0">$<%= product.Product_Price.toLocaleString('en', {minimumFractionDigits: 2,
+                  maximumFractionDigits: 2}) %>
               </p>
               <!-- <span class="d-flex justify-content-center mt-1 mb-0">
                 <a href="/delete/<%=product.Product_ID%>" class="btn btn-sm btn-warning text-muted">Add to Cart</a>
