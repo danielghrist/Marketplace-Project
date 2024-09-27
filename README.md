@@ -28,7 +28,8 @@ We are attempting to create the feel of a mash up of several different influence
 
 <h2>Known Bugs</h2>
 <ul>
-  <li>Currently the entire site only works when using public IPv4 address at port 3000 (3.144.178.121:3000/register.html).</li>
+  <li><s>Currently the entire site only works when using public IPv4 address at port 3000 (3.144.178.121:3000/register.html).</s>
+  The EC2 instance was deleted for this project, therefore there is no way to view it online currently.</li>
   <li>Currently the Express.JS server is listening on port 3000 and it is not being redirected properly through nginx.</li>
   <li><s>The navbar isn't sizing properly currently</s>. (FIXED)</li>
   <li>The Modals (popups) on the collection view site are not able to be closed on smaller screen like iPhone.</li>
