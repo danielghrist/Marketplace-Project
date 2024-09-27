@@ -13,7 +13,7 @@ We are attempting to create the feel of a mash up of several different influence
   <li>Back End:         Node.JS/Express.JS/Javascript</li>
 </ul>
 
-<h2>How to Use Project Locally (FOR GRADER/PROFESSOR)</h2>
+<h2>How to Use Project Locally:</h2>
 <ol>
   <li>Intall Node.JS</li>
   <li>Open folder containing data and install dependencies by running command: "npm install".</li>
@@ -21,9 +21,10 @@ We are attempting to create the feel of a mash up of several different influence
   <li>Open Chrome or another internet browser and navigate to "localhost:3000".</li>
 </ol>
 
-<h2>How to Access Online (FOR GRADER/PROFESSOR)</h2>
+<h2>How to Access Online:</h2>
 <ol>
-  <li>You can navigate to: "3.144.178.121:3000/" to access our site online.</li>
+  <li><s>You can navigate to: "3.144.178.121:3000/" to access our site online.</s></li>
+  <li>Currently there is no way to view this online as the EC2 instance it was hosted on was terminated.</li>
 </ol>
 
 <h2>Known Bugs</h2>
